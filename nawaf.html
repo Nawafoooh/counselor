@@ -1,0 +1,626 @@
+import React, { useState } from 'react';
+import { MapPin, Phone, Mail, Globe, Calendar, Users, Award, Star, Youtube, Twitter, Camera, MessageCircle } from 'lucide-react';
+
+export default function MadinahTourGuide() {
+  const [language, setLanguage] = useState('ar');
+  const [activeSection, setActiveSection] = useState('home');
+
+  const content = {
+    ar: {
+      name: 'نواف منصور الصبحي',
+      title: 'مرشد سياحي معتمد في المدينة المنورة',
+      tagline: 'استكشف المدينة المنورة مع خبير متخصص في التاريخ الإسلامي',
+      nav: {
+        home: 'الرئيسية',
+        services: 'الخدمات',
+        packages: 'الباقات',
+        gallery: 'معرض الصور',
+        videos: 'الفيديوهات',
+        contact: 'تواصل معنا'
+      },
+      hero: {
+        subtitle: 'رحلة روحانية في مدينة رسول الله ﷺ',
+        description: 'مع أكثر من 10 سنوات من الخبرة في الإرشاد السياحي، أقدم لكم تجربة استثنائية لاستكشاف المعالم التاريخية والدينية في المدينة المنورة بأسلوب احترافي ومعرفة عميقة بالسيرة النبوية.',
+        cta: 'احجز جولتك الآن'
+      },
+      features: [
+        { icon: Award, title: 'مرشد معتمد', desc: 'رخصة رسمية من وزارة السياحة السعودية' },
+        { icon: Globe, title: 'لغات متعددة', desc: 'العربية والإنجليزية بطلاقة تامة' },
+        { icon: Users, title: 'جولات مخصصة', desc: 'برامج مرنة للأفراد والعائلات والمجموعات' },
+        { icon: Star, title: 'خبرة واسعة', desc: 'معرفة عميقة بالتاريخ الإسلامي والمواقع الأثرية' }
+      ],
+      services: {
+        title: 'خدماتنا',
+        items: [
+          {
+            title: 'جولة المسجد النبوي الشريف',
+            desc: 'جولة شاملة تشمل التاريخ والمعالم والآداب',
+            duration: '3-4 ساعات',
+            price: 'ابتداءً من 300 ريال'
+          },
+          {
+            title: 'جولة المواقع التاريخية',
+            desc: 'زيارة جبل أحد، المساجد السبعة، مسجد القبلتين، البقيع',
+            duration: '5-6 ساعات',
+            price: 'ابتداءً من 500 ريال'
+          },
+          {
+            title: 'جولة السيرة النبوية',
+            desc: 'متحف السيرة النبوية والمواقع المرتبطة بحياة الرسول ﷺ',
+            duration: '4-5 ساعات',
+            price: 'ابتداءً من 400 ريال'
+          },
+          {
+            title: 'برنامج شامل متعدد الأيام',
+            desc: 'تجربة كاملة تشمل جميع المعالم مع برنامج مرن',
+            duration: '2-3 أيام',
+            price: 'عروض خاصة'
+          }
+        ]
+      },
+      packages: {
+        title: 'الباقات السياحية',
+        items: [
+          {
+            name: 'الباقة البرونزية',
+            price: '300',
+            duration: 'نصف يوم',
+            features: [
+              'جولة المسجد النبوي',
+              'مرشد سياحي خاص',
+              'شرح تاريخي مفصل',
+              'مدة 3-4 ساعات'
+            ]
+          },
+          {
+            name: 'الباقة الفضية',
+            price: '650',
+            duration: 'يوم كامل',
+            features: [
+              'المسجد النبوي الشريف',
+              'جبل أحد والمساجد السبعة',
+              'مسجد القبلتين',
+              'وجبة غداء',
+              'مدة 7-8 ساعات'
+            ],
+            popular: true
+          },
+          {
+            name: 'الباقة الذهبية',
+            price: '1,800',
+            duration: 'يومين',
+            features: [
+              'جميع المواقع التاريخية',
+              'متحف السيرة النبوية',
+              'جولات مخصصة حسب الرغبة',
+              'وجبات الطعام',
+              'تصوير احترافي للذكريات'
+            ]
+          }
+        ]
+      },
+      gallery: {
+        title: 'معرض الصور',
+        subtitle: 'لحظات من جولاتنا السياحية'
+      },
+      videos: {
+        title: 'فيديوهات اليوتيوب',
+        subtitle: 'شاهد جولاتنا الافتراضية'
+      },
+      contact: {
+        title: 'تواصل معنا',
+        subtitle: 'نسعد بخدمتكم وتنظيم رحلتكم المميزة',
+        form: {
+          name: 'الاسم',
+          email: 'البريد الإلكتروني',
+          phone: 'رقم الجوال',
+          date: 'التاريخ المفضل',
+          message: 'رسالتك',
+          submit: 'إرسال'
+        }
+      },
+      whatsapp: 'تواصل عبر واتساب'
+    },
+    en: {
+      name: 'Nawaf Mansour AlSobhi',
+      title: 'Certified Tour Guide in Madinah',
+      tagline: 'Discover Madinah with an Expert in Islamic History',
+      nav: {
+        home: 'Home',
+        services: 'Services',
+        packages: 'Packages',
+        gallery: 'Gallery',
+        videos: 'Videos',
+        contact: 'Contact'
+      },
+      hero: {
+        subtitle: 'A Spiritual Journey in the City of Prophet Muhammad ﷺ',
+        description: 'With over 10 years of experience in tour guiding, I offer you an exceptional experience to explore the historical and religious landmarks in Madinah with professional style and deep knowledge of the Prophetic biography.',
+        cta: 'Book Your Tour Now'
+      },
+      features: [
+        { icon: Award, title: 'Certified Guide', desc: 'Official license from Saudi Tourism Ministry' },
+        { icon: Globe, title: 'Multiple Languages', desc: 'Fluent in Arabic and English' },
+        { icon: Users, title: 'Customized Tours', desc: 'Flexible programs for individuals, families, and groups' },
+        { icon: Star, title: 'Extensive Experience', desc: 'Deep knowledge of Islamic history and archaeological sites' }
+      ],
+      services: {
+        title: 'Our Services',
+        items: [
+          {
+            title: 'Prophet\'s Mosque Tour',
+            desc: 'Comprehensive tour including history, landmarks, and etiquette',
+            duration: '3-4 hours',
+            price: 'Starting from 300 SAR'
+          },
+          {
+            title: 'Historical Sites Tour',
+            desc: 'Visit Mount Uhud, Seven Mosques, Qiblatain Mosque, Al-Baqi',
+            duration: '5-6 hours',
+            price: 'Starting from 500 SAR'
+          },
+          {
+            title: 'Prophetic Biography Tour',
+            desc: 'Seerah Museum and sites related to the life of Prophet ﷺ',
+            duration: '4-5 hours',
+            price: 'Starting from 400 SAR'
+          },
+          {
+            title: 'Multi-Day Comprehensive Program',
+            desc: 'Complete experience including all landmarks with flexible schedule',
+            duration: '2-3 days',
+            price: 'Special offers'
+          }
+        ]
+      },
+      packages: {
+        title: 'Tour Packages',
+        items: [
+          {
+            name: 'Bronze Package',
+            price: '300',
+            duration: 'Half Day',
+            features: [
+              'Prophet\'s Mosque tour',
+              'Private tour guide',
+              'Detailed historical explanation',
+              '3-4 hours duration'
+            ]
+          },
+          {
+            name: 'Silver Package',
+            price: '650',
+            duration: 'Full Day',
+            features: [
+              'Prophet\'s Mosque',
+              'Mount Uhud & Seven Mosques',
+              'Qiblatain Mosque',
+              'Lunch included',
+              '7-8 hours duration'
+            ],
+            popular: true
+          },
+          {
+            name: 'Gold Package',
+            price: '1,800',
+            duration: 'Two Days',
+            features: [
+              'All historical sites',
+              'Seerah Museum',
+              'Customized tours as desired',
+              'Meals included',
+              'Professional photography'
+            ]
+          }
+        ]
+      },
+      gallery: {
+        title: 'Photo Gallery',
+        subtitle: 'Moments from our tours'
+      },
+      videos: {
+        title: 'YouTube Videos',
+        subtitle: 'Watch our virtual tours'
+      },
+      contact: {
+        title: 'Contact Us',
+        subtitle: 'We are happy to serve you and organize your special journey',
+        form: {
+          name: 'Name',
+          email: 'Email',
+          phone: 'Phone Number',
+          date: 'Preferred Date',
+          message: 'Your Message',
+          submit: 'Send'
+        }
+      },
+      whatsapp: 'Contact via WhatsApp'
+    }
+  };
+
+  const t = content[language];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <header className="bg-white shadow-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                {language === 'ar' ? 'ن' : 'N'}
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-800">{t.name}</h1>
+                <p className="text-sm text-gray-600">{t.title}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
+              className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+            >
+              {language === 'ar' ? 'English' : 'العربية'}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <nav className="bg-emerald-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center gap-6 py-3 flex-wrap">
+            {Object.entries(t.nav).map(([key, value]) => (
+              <button
+                key={key}
+                onClick={() => setActiveSection(key)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  activeSection === key ? 'bg-emerald-800' : 'hover:bg-emerald-600'
+                }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      {activeSection === 'home' && (
+        <div className="relative">
+          <div className="h-96 bg-gradient-to-r from-emerald-800 to-emerald-600 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-black opacity-20"></div>
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'url(data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E)'
+            }}></div>
+            <div className="relative text-center text-white px-4 max-w-4xl">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.tagline}</h2>
+              <p className="text-xl md:text-2xl mb-8 opacity-90">{t.hero.subtitle}</p>
+              <a
+                href={`https://wa.me/966541148047?text=${encodeURIComponent(language === 'ar' ? 'مرحباً، أود حجز جولة سياحية في المدينة المنورة' : 'Hello, I would like to book a tour in Madinah')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-xl hover:shadow-2xl transform hover:scale-105"
+              >
+                <MessageCircle className="w-6 h-6" />
+                {t.hero.cta}
+              </a>
+            </div>
+          </div>
+
+          {/* About Section */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10">
+              <p className="text-lg text-gray-700 leading-relaxed text-center max-w-4xl mx-auto">
+                {t.hero.description}
+              </p>
+            </div>
+          </div>
+
+          {/* Features */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {t.features.map((feature, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                  <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <feature.icon className="w-8 h-8 text-emerald-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600">{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Services Section */}
+      {activeSection === 'services' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">{t.services.title}</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {t.services.items.map((service, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all">
+                <h3 className="text-2xl font-bold text-emerald-700 mb-4">{service.title}</h3>
+                <p className="text-gray-700 mb-6">{service.desc}</p>
+                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Calendar className="w-5 h-5" />
+                    <span>{service.duration}</span>
+                  </div>
+                  <div className="text-emerald-600 font-bold text-lg">{service.price}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Packages Section */}
+      {activeSection === 'packages' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">{t.packages.title}</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {t.packages.items.map((pkg, index) => (
+              <div
+                key={index}
+                className={`bg-white rounded-xl shadow-lg p-8 relative ${
+                  pkg.popular ? 'ring-4 ring-emerald-500 transform scale-105' : ''
+                }`}
+              >
+                {pkg.popular && (
+                  <div className="absolute top-0 right-0 bg-emerald-500 text-white px-4 py-1 rounded-bl-xl rounded-tr-xl font-bold">
+                    {language === 'ar' ? 'الأكثر طلباً' : 'Most Popular'}
+                  </div>
+                )}
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">{pkg.name}</h3>
+                <div className="text-4xl font-bold text-emerald-600 mb-2">
+                  {pkg.price} <span className="text-lg text-gray-600">{language === 'ar' ? 'ريال' : 'SAR'}</span>
+                </div>
+                <p className="text-gray-600 mb-6">{pkg.duration}</p>
+                <ul className="space-y-3 mb-8">
+                  {pkg.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`https://wa.me/966541148047?text=${encodeURIComponent(
+                    language === 'ar'
+                      ? `مرحباً، أود حجز ${pkg.name}`
+                      : `Hello, I would like to book the ${pkg.name}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-emerald-600 text-white text-center py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors"
+                >
+                  {language === 'ar' ? 'احجز الآن' : 'Book Now'}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Gallery Section */}
+      {activeSection === 'gallery' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">{t.gallery.title}</h2>
+          <p className="text-center text-gray-600 mb-12">{t.gallery.subtitle}</p>
+          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+            <Camera className="w-24 h-24 text-emerald-600 mx-auto mb-6" />
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              {language === 'ar' ? 'قريباً...' : 'Coming Soon...'}
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              {language === 'ar'
+                ? 'سنضيف قريباً مجموعة من الصور الرائعة من جولاتنا السياحية في المدينة المنورة. تابعونا!'
+                : 'We will soon add a collection of wonderful photos from our tours in Madinah. Stay tuned!'}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Videos Section */}
+      {activeSection === 'videos' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">{t.videos.title}</h2>
+          <p className="text-center text-gray-600 mb-12">{t.videos.subtitle}</p>
+          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+            <Youtube className="w-24 h-24 text-red-600 mx-auto mb-6" />
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              {language === 'ar' ? 'قناتنا على يوتيوب' : 'Our YouTube Channel'}
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+              {language === 'ar'
+                ? 'تابع قناتنا على يوتيوب لمشاهدة جولات افتراضية وفيديوهات تعريفية عن معالم المدينة المنورة'
+                : 'Follow our YouTube channel to watch virtual tours and introductory videos about Madinah landmarks'}
+            </p>
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition-colors"
+            >
+              <Youtube className="w-6 h-6" />
+              {language === 'ar' ? 'زيارة القناة' : 'Visit Channel'}
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Contact Section */}
+      {activeSection === 'contact' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">{t.contact.title}</h2>
+          <p className="text-center text-gray-600 mb-12">{t.contact.subtitle}</p>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Contact Info */}
+            <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-xl shadow-xl p-8 text-white">
+              <h3 className="text-2xl font-bold mb-8">{language === 'ar' ? 'معلومات التواصل' : 'Contact Information'}</h3>
+              
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm opacity-80">{language === 'ar' ? 'الجوال / واتساب' : 'Mobile / WhatsApp'}</p>
+                    <a href="tel:+966541148047" className="text-lg font-bold hover:underline">+966 54 114 8047</a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm opacity-80">{language === 'ar' ? 'البريد الإلكتروني' : 'Email'}</p>
+                    <a href="mailto:nawafalsobhi@gmail.com" className="text-lg font-bold hover:underline">nawafalsobhi@gmail.com</a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm opacity-80">{language === 'ar' ? 'الموقع' : 'Location'}</p>
+                    <p className="text-lg font-bold">{language === 'ar' ? 'المدينة المنورة، المملكة العربية السعودية' : 'Madinah, Saudi Arabia'}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-white border-opacity-20">
+                <p className="text-sm opacity-80 mb-4">{language === 'ar' ? 'تابعنا على' : 'Follow Us'}</p>
+                <div className="flex gap-4">
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all"
+                  >
+                    <Twitter className="w-6 h-6" />
+                  </a>
+                  <a
+                    href="https://youtube.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all"
+                  >
+                    <Youtube className="w-6 h-6" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="bg-white rounded-xl shadow-xl p-8">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{language === 'ar' ? 'أرسل رسالة' : 'Send a Message'}</h3>
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 mb-2">{t.contact.form.name}</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 mb-2">{t.contact.form.email}</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 mb-2">{t.contact.form.phone}</label>
+                  <input
+                    type="tel"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 mb-2">{t.contact.form.message}</label>
+                  <textarea
+                    rows="4"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors"
+                >
+                  {t.contact.form.submit}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* WhatsApp Floating Button */}
+      <a
+        href="https://wa.me/966541148047"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 z-50 flex items-center gap-2 group"
+        title={t.whatsapp}
+      >
+        <MessageCircle className="w-8 h-8" />
+        <span className="hidden group-hover:inline-block bg-green-500 px-3 py-1 rounded-lg whitespace-nowrap">
+          {t.whatsapp}
+        </span>
+      </a>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">{language === 'ar' ? 'عن المرشد' : 'About the Guide'}</h3>
+              <p className="text-gray-400">
+                {language === 'ar'
+                  ? 'مرشد سياحي معتمد متخصص في المدينة المنورة، يقدم تجربة استثنائية للزوار من جميع أنحاء العالم.'
+                  : 'Certified tour guide specializing in Madinah, providing an exceptional experience for visitors from around the world.'}
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">{language === 'ar' ? 'روابط سريعة' : 'Quick Links'}</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><button onClick={() => setActiveSection('home')} className="hover:text-white transition-colors">{t.nav.home}</button></li>
+                <li><button onClick={() => setActiveSection('services')} className="hover:text-white transition-colors">{t.nav.services}</button></li>
+                <li><button onClick={() => setActiveSection('packages')} className="hover:text-white transition-colors">{t.nav.packages}</button></li>
+                <li><button onClick={() => setActiveSection('contact')} className="hover:text-white transition-colors">{t.nav.contact}</button></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li className="flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  <a href="tel:+966541148047" className="hover:text-white transition-colors">+966 54 114 8047</a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  <a href="mailto:nawafalsobhi@gmail.com" className="hover:text-white transition-colors">nawafalsobhi@gmail.com</a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>{language === 'ar' ? 'المدينة المنورة' : 'Madinah'}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 {t.name} - {language === 'ar' ? 'جميع الحقوق محفوظة' : 'All Rights Reserved'}</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
