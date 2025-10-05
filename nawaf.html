@@ -1,482 +1,152 @@
-import React, { useState } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Clock, Star, Users, Award, Globe, ChevronDown, MessageCircle } from 'lucide-react';
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نواف الصبحي - مرشد سياحي المدينة المنورة</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+header { background: white; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.hero { background: linear-gradient(135deg, #1a5f3a, #2d8659); color: white; padding: 80px 20px; text-align: center; }
+.hero h1 { font-size: 3em; margin-bottom: 20px; }
+.hero p { font-size: 1.3em; margin-bottom: 30px; }
+.btn { display: inline-block; background: white; color: #1a5f3a; padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; margin: 10px; }
+.packages { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 50px 0; }
+.card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+.card h3 { color: #1a5f3a; font-size: 1.8em; margin-bottom: 15px; }
+.price { font-size: 2em; color: #1a5f3a; font-weight: bold; margin: 20px 0; }
+.card ul { list-style: none; margin: 20px 0; }
+.card li { padding: 8px 0; border-bottom: 1px solid #eee; }
+.contact { background: #1a5f3a; color: white; padding: 60px 20px; text-align: center; }
+.contact h2 { font-size: 2.5em; margin-bottom: 30px; }
+.info { font-size: 1.5em; margin: 20px 0; }
+footer { background: #0f3d24; color: white; text-align: center; padding: 30px; }
+.wa { position: fixed; bottom: 30px; left: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; text-align: center; line-height: 60px; font-size: 30px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.feature { text-align: center; padding: 30px; background: #f0f9f4; border-radius: 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+@media (max-width: 768px) { .hero h1 { font-size: 2em; } .packages { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
 
-const MadinahTourGuide = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('ar');
-  const [selectedPackage, setSelectedPackage] = useState(null);
+<header>
+<div class="container">
+<h2 style="color: #1a5f3a;">🕌 نواف الصبحي - مرشد سياحي معتمد</h2>
+</div>
+</header>
 
-  const content = {
-    ar: {
-      nav: {
-        home: 'الرئيسية',
-        packages: 'الباقات',
-        about: 'من أنا',
-        gallery: 'معرض الصور',
-        contact: 'تواصل معنا'
-      },
-      hero: {
-        title: 'نواف الصبحي',
-        subtitle: 'مرشد سياحي معتمد في المدينة المنورة',
-        description: 'رحلة مباركة على خطى السيرة النبوية مع خبير متخصص في المواقع التاريخية',
-        cta: 'احجز جولتك الآن'
-      },
-      stats: [
-        { number: '8+', label: 'سنوات خبرة' },
-        { number: '2000+', label: 'زائر سعيد' },
-        { number: '50+', label: 'موقع تاريخي' },
-        { number: '2', label: 'لغتان' }
-      ],
-      packages: {
-        title: 'باقاتنا السياحية',
-        subtitle: 'اختر الباقة المناسبة لرحلتك المباركة',
-        basic: {
-          name: 'زيارة مباركة',
-          duration: '4-5 ساعات',
-          price: '300-400',
-          familyPrice: '800-1000',
-          priceNote: 'للفرد / للعائلة (حتى 5 أفراد)',
-          features: [
-            'جولة إرشادية في المسجد النبوي الشريف',
-            'زيارة مسجد قباء',
-            'زيارة مسجد القبلتين',
-            'شرح تاريخي وديني مفصل',
-            'توثيق فوتوغرافي للرحلة'
-          ]
-        },
-        premium: {
-          name: 'على خطى السيرة',
-          duration: 'يوم كامل (8 ساعات)',
-          price: '600-800',
-          familyPrice: '1500-2000',
-          priceNote: 'للفرد / للعائلة',
-          badge: 'الأكثر طلباً',
-          features: [
-            'كل ما في الباقة الأساسية',
-            'زيارة جبل أحد ومقبرة شهداء أحد',
-            'المساجد السبعة',
-            'بئر عثمان (بئر رومة)',
-            'مواقع الغزوات والسيرة النبوية',
-            'وجبة غداء تقليدية',
-            'مياه وتمور طوال الجولة'
-          ]
-        },
-        vip: {
-          name: 'تجربة المدينة الكاملة',
-          duration: 'يومان أو 3 أيام',
-          price: '1200-1800',
-          familyPrice: '3000-4500',
-          priceNote: 'للفرد / للعائلة',
-          badge: 'VIP',
-          features: [
-            'كل ما في الباقة المتوسطة',
-            'زيارة متحف دار المدينة',
-            'جولة في السوق التاريخي',
-            'زيارة مكتبة الملك عبدالعزيز',
-            'وادي العقيق والمساجد التاريخية',
-            'مزارع التمور (موسمياً)',
-            'خدمة النقل الفاخر',
-            'مرشد خاص طوال الفترة',
-            'هدايا تذكارية فاخرة',
-            'توثيق احترافي بالصور والفيديو'
-          ]
-        }
-      },
-      about: {
-        title: 'من أنا',
-        subtitle: 'مرشد سياحي معتمد ومتخصص في تاريخ المدينة المنورة',
-        description: 'أنا نواف الصبحي، مرشد سياحي معتمد من هيئة السياحة السعودية مع خبرة تزيد عن 8 سنوات في إرشاد زوار المدينة المنورة. متخصص في المواقع التاريخية والدينية، وأتحدث العربية والإنجليزية بطلاقة. شغفي هو مساعدة الزوار على فهم عمق التاريخ الإسلامي وجعل زيارتهم تجربة روحانية لا تُنسى.',
-        features: [
-          { icon: '🎓', title: 'معتمد رسمياً', text: 'مرخص من هيئة السياحة السعودية' },
-          { icon: '🌍', title: 'لغتان', text: 'عربي وإنجليزي' },
-          { icon: '📚', title: 'خبير تاريخي', text: 'متخصص في السيرة النبوية' },
-          { icon: '⭐', title: 'تقييم ممتاز', text: 'رضا 98% من العملاء' }
-        ]
-      },
-      services: {
-        title: 'خدمات إضافية',
-        items: [
-          { icon: '🚗', title: 'النقل الفاخر', text: 'سيارات مكيفة مريحة مع سائق محترف' },
-          { icon: '🏨', title: 'الحجوزات', text: 'مساعدة في حجز الفنادق والمطاعم' },
-          { icon: '👥', title: 'جولات خاصة', text: 'برامج مخصصة للعائلات والمجموعات' },
-          { icon: '📸', title: 'التوثيق', text: 'تصوير احترافي للرحلة' },
-          { icon: '🎁', title: 'هدايا تذكارية', text: 'تمور فاضلة ومسك وهدايا مميزة' },
-          { icon: '📱', title: 'استشارات مجانية', text: 'تخطيط مجاني لبرنامج الزيارة' }
-        ]
-      },
-      contact: {
-        title: 'تواصل معنا',
-        subtitle: 'نسعد بخدمتكم والرد على استفساراتكم',
-        phone: '966541148047+',
-        email: 'info@nawafguide.com',
-        location: 'المدينة المنورة، المملكة العربية السعودية',
-        whatsapp: 'تواصل واتساب',
-        call: 'اتصل الآن'
-      },
-      footer: {
-        rights: 'جميع الحقوق محفوظة © 2025 - نواف الصبحي للإرشاد السياحي',
-        prayer: 'نسأل الله أن يتقبل منكم زيارتكم وأن يجعلها مباركة'
-      }
-    },
-    en: {
-      nav: {
-        home: 'Home',
-        packages: 'Packages',
-        about: 'About',
-        gallery: 'Gallery',
-        contact: 'Contact'
-      },
-      hero: {
-        title: 'Nawaf Alsubhi',
-        subtitle: 'Certified Tour Guide in Madinah',
-        description: 'A blessed journey following the Prophet\'s footsteps with an expert in historical sites',
-        cta: 'Book Your Tour Now'
-      },
-      stats: [
-        { number: '8+', label: 'Years Experience' },
-        { number: '2000+', label: 'Happy Visitors' },
-        { number: '50+', label: 'Historical Sites' },
-        { number: '2', label: 'Languages' }
-      ],
-      packages: {
-        title: 'Our Tour Packages',
-        subtitle: 'Choose the perfect package for your blessed journey',
-        basic: {
-          name: 'Blessed Visit',
-          duration: '4-5 hours',
-          price: '300-400',
-          familyPrice: '800-1000',
-          priceNote: 'Per person / Family (up to 5)',
-          features: [
-            'Guided tour of Prophet\'s Mosque',
-            'Visit to Quba Mosque',
-            'Visit to Qiblatain Mosque',
-            'Detailed historical & religious explanation',
-            'Photography documentation'
-          ]
-        },
-        premium: {
-          name: 'Following the Seerah',
-          duration: 'Full day (8 hours)',
-          price: '600-800',
-          familyPrice: '1500-2000',
-          priceNote: 'Per person / Family',
-          badge: 'Most Popular',
-          features: [
-            'Everything in Basic Package',
-            'Visit to Mount Uhud & Martyrs Cemetery',
-            'Seven Mosques',
-            'Uthman Well (Bir Rumah)',
-            'Battle sites & Prophetic history',
-            'Traditional lunch',
-            'Water & dates throughout'
-          ]
-        },
-        vip: {
-          name: 'Complete Madinah Experience',
-          duration: '2 or 3 days',
-          price: '1200-1800',
-          familyPrice: '3000-4500',
-          priceNote: 'Per person / Family',
-          badge: 'VIP',
-          features: [
-            'Everything in Premium Package',
-            'Dar Al-Madinah Museum visit',
-            'Historical market tour',
-            'King Abdulaziz Library',
-            'Al-Aqiq Valley & historical mosques',
-            'Date farms (seasonal)',
-            'Luxury transportation',
-            'Private guide throughout',
-            'Premium souvenirs',
-            'Professional photo & video documentation'
-          ]
-        }
-      },
-      about: {
-        title: 'About Me',
-        subtitle: 'Certified tour guide specialized in Madinah\'s history',
-        description: 'I am Nawaf Alsubhi, a certified tour guide licensed by the Saudi Tourism Authority with over 8 years of experience guiding visitors in Madinah. I specialize in historical and religious sites, and speak Arabic and English fluently. My passion is helping visitors understand the depth of Islamic history and making their visit an unforgettable spiritual experience.',
-        features: [
-          { icon: '🎓', title: 'Officially Certified', text: 'Licensed by Saudi Tourism Authority' },
-          { icon: '🌍', title: 'Bilingual', text: 'Arabic & English' },
-          { icon: '📚', title: 'History Expert', text: 'Specialized in Prophetic biography' },
-          { icon: '⭐', title: 'Excellent Rating', text: '98% customer satisfaction' }
-        ]
-      },
-      services: {
-        title: 'Additional Services',
-        items: [
-          { icon: '🚗', title: 'Luxury Transport', text: 'Comfortable air-conditioned vehicles' },
-          { icon: '🏨', title: 'Reservations', text: 'Hotel & restaurant booking assistance' },
-          { icon: '👥', title: 'Private Tours', text: 'Custom programs for families & groups' },
-          { icon: '📸', title: 'Documentation', text: 'Professional trip photography' },
-          { icon: '🎁', title: 'Souvenirs', text: 'Premium dates, musk & gifts' },
-          { icon: '📱', title: 'Free Consultation', text: 'Complimentary trip planning' }
-        ]
-      },
-      contact: {
-        title: 'Contact Us',
-        subtitle: 'We\'re happy to serve you and answer your inquiries',
-        phone: '+966541148047',
-        email: 'info@nawafguide.com',
-        location: 'Madinah, Kingdom of Saudi Arabia',
-        whatsapp: 'WhatsApp',
-        call: 'Call Now'
-      },
-      footer: {
-        rights: 'All Rights Reserved © 2025 - Nawaf Alsubhi Tourism Guide',
-        prayer: 'May Allah accept your visit and make it blessed'
-      }
-    }
-  };
+<section class="hero">
+<h1>مرحباً بك في المدينة المنورة</h1>
+<p>رحلة مباركة على خطى السيرة النبوية</p>
+<a href="#packages" class="btn">احجز جولتك الآن</a>
+</section>
 
-  const t = content[language];
-  const isRTL = language === 'ar';
+<section id="packages" class="container">
+<h2 style="text-align: center; font-size: 2.5em; margin: 50px 0; color: #1a5f3a;">باقاتنا السياحية</h2>
 
-  const PackageCard = ({ pkg, type }) => (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-      {pkg.badge && (
-        <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white text-center py-2 font-bold">
-          {pkg.badge}
-        </div>
-      )}
-      <div className="p-8">
-        <h3 className="text-2xl font-bold text-green-800 mb-2">{pkg.name}</h3>
-        <div className="flex items-center gap-2 text-gray-600 mb-4">
-          <Clock className="w-5 h-5" />
-          <span>{pkg.duration}</span>
-        </div>
-        <div className="mb-6">
-          <div className="text-3xl font-bold text-green-700 mb-1">
-            {pkg.price} <span className="text-xl">ريال</span>
-          </div>
-          <div className="text-lg text-gray-600">
-            {pkg.familyPrice} <span className="text-sm">ريال</span>
-          </div>
-          <div className="text-sm text-gray-500 mt-1">{pkg.priceNote}</div>
-        </div>
-        <div className="space-y-3 mb-6">
-          {pkg.features.map((feature, index) => (
-            <div key={index} className="flex gap-2 items-start">
-              <span className="text-green-600 mt-1">✓</span>
-              <span className="text-gray-700">{feature}</span>
-            </div>
-          ))}
-        </div>
-        <button 
-          onClick={() => setSelectedPackage(pkg.name)}
-          className="w-full bg-gradient-to-r from-green-700 to-green-600 text-white py-3 rounded-lg font-bold hover:from-green-800 hover:to-green-700 transition-all"
-        >
-          {t.hero.cta}
-        </button>
-      </div>
-    </div>
-  );
+<div class="packages">
 
-  return (
-    <div className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl">🕌</div>
-              <div>
-                <div className="font-bold text-xl text-green-800">{t.hero.title}</div>
-                <div className="text-sm text-gray-600">{t.hero.subtitle}</div>
-              </div>
-            </div>
+<div class="card">
+<h3>زيارة مباركة</h3>
+<p>المدة: 4-5 ساعات</p>
+<div class="price">300-400 ريال</div>
+<p style="color: #666;">للفرد | 800-1000 ريال للعائلة</p>
+<ul>
+<li>جولة في المسجد النبوي الشريف</li>
+<li>زيارة مسجد قباء</li>
+<li>زيارة مسجد القبلتين</li>
+<li>شرح تاريخي وديني مفصل</li>
+<li>توثيق فوتوغرافي</li>
+</ul>
+<a href="https://wa.me/966541148047" class="btn" style="display: block; text-align: center;">احجز الآن</a>
+</div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
-              <a href="#home" className="text-gray-700 hover:text-green-700 transition-colors">{t.nav.home}</a>
-              <a href="#packages" className="text-gray-700 hover:text-green-700 transition-colors">{t.nav.packages}</a>
-              <a href="#about" className="text-gray-700 hover:text-green-700 transition-colors">{t.nav.about}</a>
-              <a href="#contact" className="text-gray-700 hover:text-green-700 transition-colors">{t.nav.contact}</a>
-              <button
-                onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-                className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors"
-              >
-                <Globe className="w-4 h-4" />
-                {language === 'ar' ? 'EN' : 'ع'}
-              </button>
-            </nav>
+<div class="card">
+<h3>على خطى السيرة</h3>
+<p>المدة: يوم كامل</p>
+<div class="price">600-800 ريال</div>
+<p style="color: #666;">للفرد | 1500-2000 ريال للعائلة</p>
+<ul>
+<li>كل ما في الباقة الأساسية</li>
+<li>زيارة جبل أحد ومقبرة الشهداء</li>
+<li>المساجد السبعة</li>
+<li>بئر عثمان</li>
+<li>مواقع الغزوات</li>
+<li>وجبة غداء تقليدية</li>
+<li>مياه وتمور</li>
+</ul>
+<a href="https://wa.me/966541148047" class="btn" style="display: block; text-align: center;">احجز الآن</a>
+</div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+<div class="card">
+<h3>تجربة المدينة الكاملة VIP</h3>
+<p>المدة: 2-3 أيام</p>
+<div class="price">1200-1800 ريال</div>
+<p style="color: #666;">للفرد | 3000-4500 ريال للعائلة</p>
+<ul>
+<li>كل ما في الباقة المتوسطة</li>
+<li>متحف دار المدينة</li>
+<li>جولة في السوق التاريخي</li>
+<li>مكتبة الملك عبدالعزيز</li>
+<li>وادي العقيق</li>
+<li>مزارع التمور</li>
+<li>نقل فاخر خاص</li>
+<li>هدايا تذكارية فاخرة</li>
+<li>توثيق احترافي</li>
+</ul>
+<a href="https://wa.me/966541148047" class="btn" style="display: block; text-align: center;">احجز الآن</a>
+</div>
 
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <nav className="md:hidden pb-4 space-y-3">
-              <a href="#home" className="block text-gray-700 hover:text-green-700">{t.nav.home}</a>
-              <a href="#packages" className="block text-gray-700 hover:text-green-700">{t.nav.packages}</a>
-              <a href="#about" className="block text-gray-700 hover:text-green-700">{t.nav.about}</a>
-              <a href="#contact" className="block text-gray-700 hover:text-green-700">{t.nav.contact}</a>
-              <button
-                onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-                className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-lg"
-              >
-                <Globe className="w-4 h-4" />
-                {language === 'ar' ? 'English' : 'عربي'}
-              </button>
-            </nav>
-          )}
-        </div>
-      </header>
+</div>
+</section>
 
-      {/* Hero Section */}
-      <section id="home" className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="text-6xl mb-6">🕌</div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.hero.title}</h1>
-          <p className="text-xl md:text-2xl mb-3 text-green-100">{t.hero.subtitle}</p>
-          <p className="text-lg mb-8 text-green-50 max-w-2xl mx-auto">{t.hero.description}</p>
-          <a
-            href="#packages"
-            className="inline-block bg-white text-green-800 px-8 py-4 rounded-full font-bold text-lg hover:bg-green-50 transition-all transform hover:scale-105 shadow-lg"
-          >
-            {t.hero.cta}
-          </a>
+<section class="container" style="margin: 80px auto;">
+<h2 style="text-align: center; font-size: 2.5em; margin-bottom: 50px; color: #1a5f3a;">من أنا</h2>
+<p style="text-align: center; font-size: 1.2em; max-width: 800px; margin: 0 auto 50px; line-height: 1.8;">
+أنا نواف الصبحي، مرشد سياحي معتمد من هيئة السياحة السعودية مع خبرة تزيد عن 8 سنوات. 
+متخصص في المواقع التاريخية والدينية، وأتحدث العربية والإنجليزية بطلاقة.
+</p>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto">
-            {t.stats.map((stat, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                <div className="text-3xl font-bold mb-2">{stat.number}</div>
-                <div className="text-green-100">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+<div class="grid">
+<div class="feature">
+<div style="font-size: 3em;">🎓</div>
+<h3 style="color: #1a5f3a; margin: 15px 0;">معتمد رسمياً</h3>
+<p>مرخص من هيئة السياحة</p>
+</div>
+<div class="feature">
+<div style="font-size: 3em;">🌍</div>
+<h3 style="color: #1a5f3a; margin: 15px 0;">لغتان</h3>
+<p>عربي وإنجليزي</p>
+</div>
+<div class="feature">
+<div style="font-size: 3em;">📚</div>
+<h3 style="color: #1a5f3a; margin: 15px 0;">خبير تاريخي</h3>
+<p>متخصص في السيرة النبوية</p>
+</div>
+<div class="feature">
+<div style="font-size: 3em;">⭐</div>
+<h3 style="color: #1a5f3a; margin: 15px 0;">تقييم ممتاز</h3>
+<p>رضا 98% من العملاء</p>
+</div>
+</div>
+</section>
 
-      {/* Packages Section */}
-      <section id="packages" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.packages.title}</h2>
-            <p className="text-xl text-gray-600">{t.packages.subtitle}</p>
-          </div>
+<section class="contact">
+<h2>تواصل معنا</h2>
+<div class="info">📞 +966541148047</div>
+<div class="info">📧 info@nawafguide.com</div>
+<div class="info">📍 المدينة المنورة</div>
+<a href="https://wa.me/966541148047" class="btn" style="margin-top: 30px;">تواصل عبر واتساب</a>
+</section>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <PackageCard pkg={t.packages.basic} type="basic" />
-            <PackageCard pkg={t.packages.premium} type="premium" />
-            <PackageCard pkg={t.packages.vip} type="vip" />
-          </div>
-        </div>
-      </section>
+<footer>
+<p>جميع الحقوق محفوظة 2025 - نواف الصبحي</p>
+<p style="margin-top: 10px;">نسأل الله أن يتقبل زيارتكم</p>
+</footer>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.about.title}</h2>
-            <p className="text-xl text-gray-600 mb-8">{t.about.subtitle}</p>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              {t.about.description}
-            </p>
-          </div>
+<a href="https://wa.me/966541148047" class="wa">💬</a>
 
-          <div className="grid md:grid-cols-4 gap-6 mt-12">
-            {t.about.features.map((feature, index) => (
-              <div key={index} className="text-center p-6 bg-green-50 rounded-xl">
-                <div className="text-4xl mb-3">{feature.icon}</div>
-                <h3 className="font-bold text-lg text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">{t.services.title}</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {t.services.items.map((service, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                <div className="text-4xl mb-3">{service.icon}</div>
-                <h3 className="font-bold text-lg text-gray-900 mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-green-800 to-green-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">{t.contact.title}</h2>
-          <p className="text-xl mb-12 text-green-100">{t.contact.subtitle}</p>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <a
-              href={`https://wa.me/${t.contact.phone.replace(/\+/g, '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-green-800 p-6 rounded-xl hover:bg-green-50 transition-colors flex items-center justify-center gap-3 shadow-lg"
-            >
-              <MessageCircle className="w-6 h-6" />
-              <div className="text-left">
-                <div className="font-bold">{t.contact.whatsapp}</div>
-                <div className="text-sm">{t.contact.phone}</div>
-              </div>
-            </a>
-
-            <a
-              href={`tel:${t.contact.phone}`}
-              className="bg-white text-green-800 p-6 rounded-xl hover:bg-green-50 transition-colors flex items-center justify-center gap-3 shadow-lg"
-            >
-              <Phone className="w-6 h-6" />
-              <div className="text-left">
-                <div className="font-bold">{t.contact.call}</div>
-                <div className="text-sm">{t.contact.phone}</div>
-              </div>
-            </a>
-          </div>
-
-          <div className="space-y-4 text-green-100">
-            <div className="flex items-center justify-center gap-2">
-              <Mail className="w-5 h-5" />
-              <span>{t.contact.email}</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <MapPin className="w-5 h-5" />
-              <span>{t.contact.location}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-green-950 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="mb-2">{t.footer.rights}</p>
-          <p className="text-green-200 text-sm">{t.footer.prayer}</p>
-        </div>
-      </footer>
-
-      {/* Floating WhatsApp Button */}
-      <a
-        href={`https://wa.me/${t.contact.phone.replace(/\+/g, '')}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 z-50"
-        style={{ left: isRTL ? '1.5rem' : 'auto', right: isRTL ? 'auto' : '1.5rem' }}
-      >
-        <MessageCircle className="w-6 h-6" />
-      </a>
-    </div>
-  );
-};
-
-export default MadinahTourGuide;
+</body>
+</html>
