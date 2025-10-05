@@ -1,483 +1,428 @@
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Calendar, Users, Award, Star, Youtube, Twitter, Camera, MessageCircle } from 'lucide-react';
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل المدينة المنورة - رحلتك المباركة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-export default function MadinahTourGuide() {
-  const [language, setLanguage] = useState('ar');
-  const [activeSection, setActiveSection] = useState('home');
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5f3f 100%);
+            color: #333;
+        }
 
-  const isArabic = language === 'ar';
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50" dir={isArabic ? 'rtl' : 'ltr'}>
-      <header className="bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                {isArabic ? 'ن' : 'N'}
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-800">
-                  {isArabic ? 'نواف منصور الصبحي' : 'Nawaf Mansour AlSobhi'}
-                </h1>
-                <p className="text-sm text-gray-600">
-                  {isArabic ? 'مرشد سياحي معتمد في المدينة المنورة' : 'Certified Tour Guide in Madinah'}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setLanguage(isArabic ? 'en' : 'ar')}
-              className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-            >
-              {isArabic ? 'English' : 'العربية'}
-            </button>
-          </div>
-        </div>
-      </header>
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-      <nav className="bg-emerald-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center gap-6 py-3 flex-wrap">
-            <button onClick={() => setActiveSection('home')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'home' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'الرئيسية' : 'Home'}
-            </button>
-            <button onClick={() => setActiveSection('services')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'services' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'الخدمات' : 'Services'}
-            </button>
-            <button onClick={() => setActiveSection('packages')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'packages' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'الباقات' : 'Packages'}
-            </button>
-            <button onClick={() => setActiveSection('gallery')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'gallery' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'معرض الصور' : 'Gallery'}
-            </button>
-            <button onClick={() => setActiveSection('videos')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'videos' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'الفيديوهات' : 'Videos'}
-            </button>
-            <button onClick={() => setActiveSection('contact')} className={`px-4 py-2 rounded-lg transition-colors ${activeSection === 'contact' ? 'bg-emerald-800' : 'hover:bg-emerald-600'}`}>
-              {isArabic ? 'تواصل معنا' : 'Contact'}
-            </button>
-          </div>
-        </div>
-      </nav>
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1a472a, #3d8b57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-      {activeSection === 'home' && (
-        <div className="relative">
-          <div className="h-96 bg-gradient-to-r from-emerald-800 to-emerald-600 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-black opacity-20"></div>
-            <div className="relative text-center text-white px-4 max-w-4xl">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                {isArabic ? 'استكشف المدينة المنورة مع خبير متخصص' : 'Discover Madinah with an Expert Guide'}
-              </h2>
-              <p className="text-xl md:text-2xl mb-8 opacity-90">
-                {isArabic ? 'رحلة روحانية في مدينة رسول الله' : 'A Spiritual Journey in the Holy City'}
-              </p>
-              <a
-                href="https://wa.me/966541148047"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-xl"
-              >
-                <MessageCircle className="w-6 h-6" />
-                {isArabic ? 'احجز جولتك الآن' : 'Book Your Tour Now'}
-              </a>
-            </div>
-          </div>
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: #2d5f3f;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="bg-white rounded-2xl shadow-xl p-8 -mt-20 relative z-10">
-              <p className="text-lg text-gray-700 leading-relaxed text-center max-w-4xl mx-auto">
-                {isArabic 
-                  ? 'مع أكثر من 10 سنوات من الخبرة في الإرشاد السياحي، أقدم لكم تجربة استثنائية لاستكشاف المعالم التاريخية والدينية في المدينة المنورة بأسلوب احترافي ومعرفة عميقة بالسيرة النبوية'
-                  : 'With over 10 years of experience in tour guiding, I offer you an exceptional experience to explore the historical and religious landmarks in Madinah with professional style and deep knowledge of Islamic history'}
-              </p>
-            </div>
-          </div>
+        nav a:hover {
+            color: #1a472a;
+        }
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{isArabic ? 'مرشد معتمد' : 'Certified Guide'}</h3>
-                <p className="text-gray-600">{isArabic ? 'رخصة رسمية من وزارة السياحة السعودية' : 'Official license from Saudi Tourism Ministry'}</p>
-              </div>
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(26, 71, 42, 0.9), rgba(45, 95, 63, 0.9));
+            color: white;
+        }
 
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{isArabic ? 'لغات متعددة' : 'Multiple Languages'}</h3>
-                <p className="text-gray-600">{isArabic ? 'العربية والإنجليزية بطلاقة تامة' : 'Fluent in Arabic and English'}</p>
-              </div>
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{isArabic ? 'جولات مخصصة' : 'Customized Tours'}</h3>
-                <p className="text-gray-600">{isArabic ? 'برامج مرنة للأفراد والعائلات والمجموعات' : 'Flexible programs for individuals and groups'}</p>
-              </div>
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
 
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{isArabic ? 'خبرة واسعة' : 'Extensive Experience'}</h3>
-                <p className="text-gray-600">{isArabic ? 'معرفة عميقة بالتاريخ الإسلامي والمواقع الأثرية' : 'Deep knowledge of Islamic history'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
 
-      {activeSection === 'services' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">{isArabic ? 'خدماتنا' : 'Our Services'}</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all">
-              <h3 className="text-2xl font-bold text-emerald-700 mb-4">{isArabic ? 'جولة المسجد النبوي الشريف' : 'Prophets Mosque Tour'}</h3>
-              <p className="text-gray-700 mb-6">{isArabic ? 'جولة شاملة تشمل التاريخ والمعالم والآداب' : 'Comprehensive tour including history and landmarks'}</p>
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="w-5 h-5" />
-                  <span>{isArabic ? '3-4 ساعات' : '3-4 hours'}</span>
-                </div>
-                <div className="text-emerald-600 font-bold text-lg">{isArabic ? 'من 300 ريال' : 'From 300 SAR'}</div>
-              </div>
-            </div>
+        .filter-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
 
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all">
-              <h3 className="text-2xl font-bold text-emerald-700 mb-4">{isArabic ? 'جولة المواقع التاريخية' : 'Historical Sites Tour'}</h3>
-              <p className="text-gray-700 mb-6">{isArabic ? 'زيارة جبل أحد، المساجد السبعة، مسجد القبلتين' : 'Visit Mount Uhud, Seven Mosques, Qiblatain'}</p>
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="w-5 h-5" />
-                  <span>{isArabic ? '5-6 ساعات' : '5-6 hours'}</span>
-                </div>
-                <div className="text-emerald-600 font-bold text-lg">{isArabic ? 'من 500 ريال' : 'From 500 SAR'}</div>
-              </div>
-            </div>
+        .filter-section h3 {
+            color: #1a472a;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
 
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all">
-              <h3 className="text-2xl font-bold text-emerald-700 mb-4">{isArabic ? 'جولة السيرة النبوية' : 'Prophetic Biography Tour'}</h3>
-              <p className="text-gray-700 mb-6">{isArabic ? 'متحف السيرة النبوية والمواقع المرتبطة بحياة الرسول' : 'Seerah Museum and related sites'}</p>
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="w-5 h-5" />
-                  <span>{isArabic ? '4-5 ساعات' : '4-5 hours'}</span>
-                </div>
-                <div className="text-emerald-600 font-bold text-lg">{isArabic ? 'من 400 ريال' : 'From 400 SAR'}</div>
-              </div>
-            </div>
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
 
-            <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all">
-              <h3 className="text-2xl font-bold text-emerald-700 mb-4">{isArabic ? 'برنامج شامل متعدد الأيام' : 'Multi-Day Program'}</h3>
-              <p className="text-gray-700 mb-6">{isArabic ? 'تجربة كاملة تشمل جميع المعالم مع برنامج مرن' : 'Complete experience with flexible schedule'}</p>
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="w-5 h-5" />
-                  <span>{isArabic ? '2-3 أيام' : '2-3 days'}</span>
-                </div>
-                <div className="text-emerald-600 font-bold text-lg">{isArabic ? 'عروض خاصة' : 'Special offers'}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #2d5f3f;
+            background: white;
+            color: #2d5f3f;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
 
-      {activeSection === 'packages' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">{isArabic ? 'الباقات السياحية' : 'Tour Packages'}</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">{isArabic ? 'الباقة البرونزية' : 'Bronze Package'}</h3>
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
-                300 <span className="text-lg text-gray-600">{isArabic ? 'ريال' : 'SAR'}</span>
-              </div>
-              <p className="text-gray-600 mb-6">{isArabic ? 'نصف يوم' : 'Half Day'}</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'جولة المسجد النبوي' : 'Prophets Mosque tour'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'مرشد سياحي خاص' : 'Private tour guide'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'شرح تاريخي مفصل' : 'Detailed explanations'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'مدة 3-4 ساعات' : '3-4 hours duration'}</span>
-                </li>
-              </ul>
-              <a href="https://wa.me/966541148047" target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 text-white text-center py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors">
-                {isArabic ? 'احجز الآن' : 'Book Now'}
-              </a>
-            </div>
+        .filter-btn:hover, .filter-btn.active {
+            background: #2d5f3f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(45, 95, 63, 0.3);
+        }
 
-            <div className="bg-white rounded-xl shadow-lg p-8 ring-4 ring-emerald-500 transform scale-105">
-              <div className="absolute top-0 right-0 bg-emerald-500 text-white px-4 py-1 rounded-bl-xl rounded-tr-xl font-bold">
-                {isArabic ? 'الأكثر طلباً' : 'Most Popular'}
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2 mt-4">{isArabic ? 'الباقة الفضية' : 'Silver Package'}</h3>
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
-                650 <span className="text-lg text-gray-600">{isArabic ? 'ريال' : 'SAR'}</span>
-              </div>
-              <p className="text-gray-600 mb-6">{isArabic ? 'يوم كامل' : 'Full Day'}</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'المسجد النبوي الشريف' : 'Prophets Mosque'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'جبل أحد والمساجد السبعة' : 'Mount Uhud and Seven Mosques'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'مسجد القبلتين' : 'Qiblatain Mosque'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'وجبة غداء' : 'Lunch included'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'مدة 7-8 ساعات' : '7-8 hours'}</span>
-                </li>
-              </ul>
-              <a href="https://wa.me/966541148047" target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 text-white text-center py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors">
-                {isArabic ? 'احجز الآن' : 'Book Now'}
-              </a>
-            </div>
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
 
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">{isArabic ? 'الباقة الذهبية' : 'Gold Package'}</h3>
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
-                1800 <span className="text-lg text-gray-600">{isArabic ? 'ريال' : 'SAR'}</span>
-              </div>
-              <p className="text-gray-600 mb-6">{isArabic ? 'يومين' : 'Two Days'}</p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'جميع المواقع التاريخية' : 'All historical sites'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'متحف السيرة النبوية' : 'Seerah Museum'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'جولات مخصصة' : 'Customized tours'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'وجبات الطعام' : 'Meals included'}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Star className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
-                  <span className="text-gray-700">{isArabic ? 'تصوير احترافي' : 'Professional photography'}</span>
-                </li>
-              </ul>
-              <a href="https://wa.me/966541148047" target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 text-white text-center py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors">
-                {isArabic ? 'احجز الآن' : 'Book Now'}
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+        .guide-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
 
-      {activeSection === 'gallery' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">
-            {isArabic ? 'معرض الصور' : 'Photo Gallery'}
-          </h2>
-          <p className="text-center text-gray-600 mb-12">
-            {isArabic ? 'لحظات من جولاتنا السياحية' : 'Moments from our tours'}
-          </p>
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <Camera className="w-24 h-24 text-emerald-600 mx-auto mb-6" />
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
-              {isArabic ? 'قريباً' : 'Coming Soon'}
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              {isArabic
-                ? 'سنضيف قريباً مجموعة من الصور الرائعة من جولاتنا السياحية'
-                : 'We will soon add wonderful photos from our tours'}
-            </p>
-          </div>
-        </div>
-      )}
+        .guide-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
 
-      {activeSection === 'videos' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">
-            {isArabic ? 'فيديوهات اليوتيوب' : 'YouTube Videos'}
-          </h2>
-          <p className="text-center text-gray-600 mb-12">
-            {isArabic ? 'شاهد جولاتنا الافتراضية' : 'Watch our virtual tours'}
-          </p>
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <Youtube className="w-24 h-24 text-red-600 mx-auto mb-6" />
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
-              {isArabic ? 'قناتنا على يوتيوب' : 'Our YouTube Channel'}
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              {isArabic
-                ? 'تابع قناتنا لمشاهدة جولات افتراضية وفيديوهات تعريفية'
-                : 'Follow our channel to watch virtual tours'}
-            </p>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition-colors"
-            >
-              <Youtube className="w-6 h-6" />
-              {isArabic ? 'زيارة القناة' : 'Visit Channel'}
-            </a>
-          </div>
-        </div>
-      )}
+        .guide-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #1a472a, #3d8b57);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
 
-      {activeSection === 'contact' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">
-            {isArabic ? 'تواصل معنا' : 'Contact Us'}
-          </h2>
-          <p className="text-center text-gray-600 mb-12">
-            {isArabic ? 'نسعد بخدمتكم وتنظيم رحلتكم المميزة' : 'We are happy to serve you'}
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-xl shadow-xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-8">{isArabic ? 'معلومات التواصل' : 'Contact Information'}</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm opacity-80">{isArabic ? 'الجوال / واتساب' : 'Mobile / WhatsApp'}</p>
-                    <a href="tel:+966541148047" className="text-lg font-bold hover:underline">+966 54 114 8047</a>
-                  </div>
-                </div>
+        .guide-content {
+            padding: 1.5rem;
+        }
 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm opacity-80">{isArabic ? 'البريد الإلكتروني' : 'Email'}</p>
-                    <a href="mailto:nawafalsobhi@gmail.com" className="text-lg font-bold hover:underline break-all">nawafalsobhi@gmail.com</a>
-                  </div>
-                </div>
+        .guide-title {
+            font-size: 1.4rem;
+            color: #1a472a;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm opacity-80">{isArabic ? 'الموقع' : 'Location'}</p>
-                    <p className="text-lg font-bold">{isArabic ? 'المدينة المنورة' : 'Madinah, Saudi Arabia'}</p>
-                  </div>
-                </div>
-              </div>
+        .guide-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
 
-              <div className="mt-8 pt-8 border-t border-white border-opacity-20">
-                <p className="text-sm opacity-80 mb-4">{isArabic ? 'تابعنا على' : 'Follow Us'}</p>
-                <div className="flex gap-4">
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all">
-                    <Twitter className="w-6 h-6" />
-                  </a>
-                  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all">
-                    <Youtube className="w-6 h-6" />
-                  </a>
-                </div>
-              </div>
-            </div>
+        .guide-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
 
-            <div className="bg-white rounded-xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">{isArabic ? 'أرسل رسالة' : 'Send a Message'}</h3>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label className="block text-gray-700 mb-2">{isArabic ? 'الاسم' : 'Name'}</label>
-                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none" />
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">{isArabic ? 'البريد الإلكتروني' : 'Email'}</label>
-                  <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none" />
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">{isArabic ? 'رقم الجوال' : 'Phone'}</label>
-                  <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none" />
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">{isArabic ? 'رسالتك' : 'Message'}</label>
-                  <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"></textarea>
-                </div>
-                <button type="submit" className="w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 transition-colors">
-                  {isArabic ? 'إرسال' : 'Send'}
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+        .guide-price {
+            font-size: 1.3rem;
+            color: #1a472a;
+            font-weight: bold;
+        }
 
-      <a href="https://wa.me/966541148047" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 z-50">
-        <MessageCircle className="w-8 h-8" />
-      </a>
+        .guide-btn {
+            background: linear-gradient(45deg, #1a472a, #3d8b57);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
 
-      <footer className="bg-gray-900 text-white py-12 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">{isArabic ? 'عن المرشد' : 'About the Guide'}</h3>
-              <p className="text-gray-400">
-                {isArabic ? 'مرشد سياحي معتمد متخصص في المدينة المنورة' : 'Certified tour guide specializing in Madinah'}
-              </p>
-            </div>
+        .guide-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #f0f7f3;
+            color: #1a472a;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        footer {
+            background: rgba(26, 71, 42, 0.95);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
             
-            <div>
-              <h3 className="text-xl font-bold mb-4">{isArabic ? 'روابط سريعة' : 'Quick Links'}</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><button onClick={() => setActiveSection('home')} className="hover:text-white transition-colors">{isArabic ? 'الرئيسية' : 'Home'}</button></li>
-                <li><button onClick={() => setActiveSection('services')} className="hover:text-white transition-colors">{isArabic ? 'الخدمات' : 'Services'}</button></li>
-                <li><button onClick={() => setActiveSection('packages')} className="hover:text-white transition-colors">{isArabic ? 'الباقات' : 'Packages'}</button></li>
-                <li><button onClick={() => setActiveSection('contact')} className="hover:text-white transition-colors">{isArabic ? 'تواصل معنا' : 'Contact'}</button></li>
-              </ul>
-            </div>
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
             
-            <div>
-              <h3 className="text-xl font-bold mb-4">{isArabic ? 'تواصل معنا' : 'Contact Us'}</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <a href="tel:+966541148047" className="hover:text-white transition-colors">+966 54 114 8047</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  <a href="mailto:nawafalsobhi@gmail.com" className="hover:text-white transition-colors">nawafalsobhi@gmail.com</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  <span>{isArabic ? 'المدينة المنورة' : 'Madinah'}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 {isArabic ? 'نواف منصور الصبحي' : 'Nawaf Mansour AlSobhi'} - {isArabic ? 'جميع الحقوق محفوظة' : 'All Rights Reserved'}</p>
-          </div>
+            .filter-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🕌 دليل المدينة المنورة</div>
+            <nav>
+                <a href="#guides">الأدلة السياحية</a>
+                <a href="#about">عن المدينة</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
         </div>
-      </footer>
+    </header>
+
+    <div class="hero">
+        <h1>مرحباً بك في المدينة المنورة</h1>
+        <p>أدلة سياحية شاملة لتجعل زيارتك أكثر بركة ويسراً</p>
     </div>
-  );
-}
+
+    <div class="container">
+        <div class="filter-section">
+            <h3>تصفح حسب الفئة</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterGuides('all')">جميع الأدلة</button>
+                <button class="filter-btn" onclick="filterGuides('religious')">الزيارات الدينية</button>
+                <button class="filter-btn" onclick="filterGuides('historical')">المواقع التاريخية</button>
+                <button class="filter-btn" onclick="filterGuides('practical')">معلومات عملية</button>
+                <button class="filter-btn" onclick="filterGuides('accommodation')">الإقامة والخدمات</button>
+            </div>
+        </div>
+
+        <div class="guides-grid" id="guidesGrid">
+            <div class="guide-card" data-category="religious">
+                <div class="guide-image">🕌</div>
+                <div class="guide-content">
+                    <span class="category-badge">الزيارات الدينية</span>
+                    <h3 class="guide-title">دليل المسجد النبوي الشريف</h3>
+                    <p class="guide-description">دليل شامل للمسجد النبوي يتضمن آداب الزيارة، أفضل أوقات الزيارة، والمعلومات الضرورية للزائرين</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="religious">
+                <div class="guide-image">🌙</div>
+                <div class="guide-content">
+                    <span class="category-badge">الزيارات الدينية</span>
+                    <h3 class="guide-title">مساجد المدينة التاريخية</h3>
+                    <p class="guide-description">دليل لأهم المساجد التاريخية في المدينة المنورة مثل مسجد قباء ومسجد القبلتين والمساجد السبعة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="historical">
+                <div class="guide-image">🏛️</div>
+                <div class="guide-content">
+                    <span class="category-badge">المواقع التاريخية</span>
+                    <h3 class="guide-title">معالم السيرة النبوية</h3>
+                    <p class="guide-description">جولة في المواقع المرتبطة بالسيرة النبوية الشريفة والأحداث التاريخية الهامة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="historical">
+                <div class="guide-image">⛰️</div>
+                <div class="guide-content">
+                    <span class="category-badge">المواقع التاريخية</span>
+                    <h3 class="guide-title">جبل أحد ومعالمه</h3>
+                    <p class="guide-description">دليل شامل لزيارة جبل أحد ومقبرة شهداء أحد والمواقع المرتبطة بالغزوة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="practical">
+                <div class="guide-image">🚌</div>
+                <div class="guide-content">
+                    <span class="category-badge">معلومات عملية</span>
+                    <h3 class="guide-title">التنقل في المدينة المنورة</h3>
+                    <p class="guide-description">معلومات عن وسائل النقل، المواصلات العامة، وأفضل طرق التنقل بين المعالم</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="accommodation">
+                <div class="guide-image">🏨</div>
+                <div class="guide-content">
+                    <span class="category-badge">الإقامة والخدمات</span>
+                    <h3 class="guide-title">دليل الفنادق والإقامة</h3>
+                    <p class="guide-description">مرجع شامل لخيارات الإقامة في المدينة المنورة من الفنادق الفاخرة إلى الخيارات الاقتصادية</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="practical">
+                <div class="guide-image">🍽️</div>
+                <div class="guide-content">
+                    <span class="category-badge">معلومات عملية</span>
+                    <h3 class="guide-title">المطاعم والمأكولات</h3>
+                    <p class="guide-description">دليل لأفضل المطاعم والأطعمة التقليدية في المدينة المنورة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="practical">
+                <div class="guide-image">📱</div>
+                <div class="guide-content">
+                    <span class="category-badge">معلومات عملية</span>
+                    <h3 class="guide-title">نصائح وإرشادات للزوار</h3>
+                    <p class="guide-description">معلومات عامة ونصائح مهمة لجعل زيارتك مريحة وممتعة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card" data-category="accommodation">
+                <div class="guide-image">🛍️</div>
+                <div class="guide-content">
+                    <span class="category-badge">الإقامة والخدمات</span>
+                    <h3 class="guide-title">التسوق والهدايا التذكارية</h3>
+                    <p class="guide-description">دليل لأفضل أماكن التسوق والهدايا التذكارية في المدينة المنورة</p>
+                    <div class="guide-meta">
+                        <span class="guide-price">مجاني</span>
+                        <button class="guide-btn">تحميل الدليل</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2025 - دليل المدينة المنورة السياحي</p>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">نسأل الله أن يتقبل منكم زيارتكم وأن يجعلها مباركة</p>
+    </footer>
+
+    <script>
+        function filterGuides(category) {
+            const cards = document.querySelectorAll('.guide-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        document.querySelectorAll('.guide-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('سيتم تحميل الدليل قريباً! يمكنك إضافة رابط التحميل الفعلي هنا.');
+            });
+        });
+
+        document.querySelectorAll('.guide-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.guide-title').textContent;
+                alert('صفحة تفاصيل: ' + title + '\n\nيمكنك إضافة صفحة منفصلة لكل دليل تحتوي على معلومات مفصلة.');
+            });
+        });
+    </script>
+</body>
+</html>
