@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Target, AlertCircle, Edit2, Trash2, Save, X, TrendingUp } from 'lucide-react';
 
 const PortfolioManager = () => {
-  const [portfolioValue, setPortfolioValue] = useState(1000000);
+  const [portfolioValue] = useState(1000000);
   const [stocks, setStocks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -16,11 +16,11 @@ const PortfolioManager = () => {
     const invested = stock.purchasePrice * stock.shares;
     const currentValue = stock.currentPrice * stock.shares;
     const pnl = currentValue - invested;
-    const pnlPercent = ((pnl / invested) * 100).toFixed(2);
-    const target1Percent = (((stock.target1 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
-    const target2Percent = (((stock.target2 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
-    const riskPercent = (((stock.currentPrice - stock.stopLoss) / stock.currentPrice) * 100).toFixed(2);
-    const positionSize = ((invested / portfolioValue) * 100).toFixed(2);
+    const pnlPercent = invested > 0 ? ((pnl / invested) * 100).toFixed(2) : '0.00';
+    const target1Percent = stock.currentPrice > 0 ? (((stock.target1 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2) : '0.00';
+    const target2Percent = stock.currentPrice > 0 ? (((stock.target2 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2) : '0.00';
+    const riskPercent = stock.currentPrice > 0 ? (((stock.currentPrice - stock.stopLoss) / stock.currentPrice) * 100).toFixed(2) : '0.00';
+    const positionSize = portfolioValue > 0 ? ((invested / portfolioValue) * 100).toFixed(2) : '0.00';
     
     return { invested, currentValue, pnl, pnlPercent, target1Percent, target2Percent, riskPercent, positionSize };
   };
@@ -28,7 +28,7 @@ const PortfolioManager = () => {
   const totalInvested = stocks.reduce((sum, stock) => sum + (stock.purchasePrice * stock.shares), 0);
   const totalCurrentValue = stocks.reduce((sum, stock) => sum + (stock.currentPrice * stock.shares), 0);
   const totalPnL = totalCurrentValue - totalInvested;
-  const totalPnLPercent = totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : 0;
+  const totalPnLPercent = totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : '0.00';
   const cashAvailable = portfolioValue - totalInvested;
 
   const handleSubmit = () => {
@@ -103,7 +103,7 @@ const PortfolioManager = () => {
       swing: 'تداول قصير الأجل',
       speculation: 'مضاربة'
     };
-    return labels[strategy];
+    return labels[strategy] || strategy;
   };
 
   const getStrategyColor = (strategy) => {
@@ -112,44 +112,46 @@ const PortfolioManager = () => {
       swing: 'bg-purple-100 text-purple-800',
       speculation: 'bg-orange-100 text-orange-800'
     };
-    return colors[strategy];
+    return colors[strategy] || 'bg-gray-100 text-gray-800';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6" dir="rtl">
       <div className="max-w-7xl mx-auto">
         
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+        {/* Header Section */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">إدارة المحفظة الاستثمارية</h1>
-              <p className="text-slate-600">نظام احترافي لإدارة الاستثمارات - بورصة الكويت</p>
+              <h1 className="text-2xl md:text-4xl font-bold text-slate-800 mb-2">إدارة المحفظة الاستثمارية</h1>
+              <p className="text-slate-600 text-sm md:text-base">نظام احترافي لإدارة الاستثمارات - بورصة الكويت</p>
             </div>
             <button
               onClick={() => setShowForm(!showForm)}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center gap-2 shadow-md"
+              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-2 shadow-md"
             >
               <Plus size={20} />
               إضافة سهم جديد
             </button>
           </div>
 
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
               <p className="text-sm text-blue-700 font-medium mb-1">إجمالي المحفظة</p>
-              <p className="text-2xl font-bold text-blue-900">{portfolioValue.toLocaleString()} د.ك</p>
+              <p className="text-xl md:text-2xl font-bold text-blue-900">{portfolioValue.toLocaleString()} د.ك</p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
               <p className="text-sm text-green-700 font-medium mb-1">القيمة الحالية</p>
-              <p className="text-2xl font-bold text-green-900">{totalCurrentValue.toLocaleString()} د.ك</p>
+              <p className="text-xl md:text-2xl font-bold text-green-900">{totalCurrentValue.toLocaleString()} د.ك</p>
             </div>
             <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
               <p className="text-sm text-purple-700 font-medium mb-1">المبلغ المستثمر</p>
-              <p className="text-2xl font-bold text-purple-900">{totalInvested.toLocaleString()} د.ك</p>
+              <p className="text-xl md:text-2xl font-bold text-purple-900">{totalInvested.toLocaleString()} د.ك</p>
             </div>
             <div className={`bg-gradient-to-br ${totalPnL >= 0 ? 'from-emerald-50 to-emerald-100' : 'from-red-50 to-red-100'} p-4 rounded-xl`}>
               <p className={`text-sm font-medium mb-1 ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>الربح/الخسارة</p>
-              <p className={`text-2xl font-bold ${totalPnL >= 0 ? 'text-emerald-900' : 'text-red-900'}`}>
+              <p className={`text-xl md:text-2xl font-bold ${totalPnL >= 0 ? 'text-emerald-900' : 'text-red-900'}`}>
                 {totalPnL >= 0 ? '+' : ''}{totalPnL.toLocaleString()} د.ك
               </p>
               <p className={`text-sm ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
@@ -158,19 +160,23 @@ const PortfolioManager = () => {
             </div>
             <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
               <p className="text-sm text-amber-700 font-medium mb-1">السيولة المتاحة</p>
-              <p className="text-2xl font-bold text-amber-900">{cashAvailable.toLocaleString()} د.ك</p>
+              <p className="text-xl md:text-2xl font-bold text-amber-900">{cashAvailable.toLocaleString()} د.ك</p>
               <p className="text-sm text-amber-700">{((cashAvailable/portfolioValue)*100).toFixed(1)}%</p>
             </div>
           </div>
         </div>
 
+        {/* Add/Edit Form */}
         {showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-slate-800">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800">
                 {editingId ? 'تعديل السهم' : 'إضافة سهم جديد'}
               </h2>
-              <button onClick={() => {setShowForm(false); setEditingId(null);}} className="text-slate-400 hover:text-slate-600">
+              <button 
+                onClick={() => {setShowForm(false); setEditingId(null);}} 
+                className="text-slate-400 hover:text-slate-600"
+              >
                 <X size={24} />
               </button>
             </div>
@@ -183,7 +189,7 @@ const PortfolioManager = () => {
                   value={formData.symbol}
                   onChange={(e) => setFormData({...formData, symbol: e.target.value})}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="مثال: ZAIN"
+                  placeholder="ZAIN"
                 />
               </div>
 
@@ -308,7 +314,7 @@ const PortfolioManager = () => {
                 </select>
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-2">استراتيجية الاستثمار</label>
                 <select
                   value={formData.strategy}
@@ -351,6 +357,7 @@ const PortfolioManager = () => {
           </div>
         )}
 
+        {/* Stocks List */}
         <div className="space-y-4">
           {stocks.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
