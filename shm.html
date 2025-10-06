@@ -1,506 +1,388 @@
-import React, { useState } from 'react';
-import { Plus, Target, AlertCircle, Edit2, Trash2, Save, X, TrendingUp } from 'lucide-react';
-
-const PortfolioManager = () => {
-  const [portfolioValue] = useState(1000000);
-  const [stocks, setStocks] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({
-    symbol: '', company: '', currentPrice: '', purchasePrice: '', shares: '',
-    target1: '', target2: '', stopLoss: '', entryZone1: '', entryZone2: '',
-    type: 'long', strategy: 'investment', sector: '', notes: ''
-  });
-
-  const calculateMetrics = (stock) => {
-    const invested = stock.purchasePrice * stock.shares;
-    const currentValue = stock.currentPrice * stock.shares;
-    const pnl = currentValue - invested;
-    const pnlPercent = invested > 0 ? ((pnl / invested) * 100).toFixed(2) : '0.00';
-    const target1Percent = stock.currentPrice > 0 ? (((stock.target1 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2) : '0.00';
-    const target2Percent = stock.currentPrice > 0 ? (((stock.target2 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2) : '0.00';
-    const riskPercent = stock.currentPrice > 0 ? (((stock.currentPrice - stock.stopLoss) / stock.currentPrice) * 100).toFixed(2) : '0.00';
-    const positionSize = portfolioValue > 0 ? ((invested / portfolioValue) * 100).toFixed(2) : '0.00';
-    
-    return { invested, currentValue, pnl, pnlPercent, target1Percent, target2Percent, riskPercent, positionSize };
-  };
-
-  const totalInvested = stocks.reduce((sum, stock) => sum + (stock.purchasePrice * stock.shares), 0);
-  const totalCurrentValue = stocks.reduce((sum, stock) => sum + (stock.currentPrice * stock.shares), 0);
-  const totalPnL = totalCurrentValue - totalInvested;
-  const totalPnLPercent = totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : '0.00';
-  const cashAvailable = portfolioValue - totalInvested;
-
-  const handleSubmit = () => {
-    if (!formData.symbol || !formData.currentPrice || !formData.purchasePrice || !formData.shares || !formData.target1 || !formData.target2 || !formData.stopLoss) {
-      alert('الرجاء ملء جميع الحقول المطلوبة');
-      return;
-    }
-
-    const stockData = {
-      id: editingId || Date.now(),
-      symbol: formData.symbol,
-      company: formData.company,
-      currentPrice: parseFloat(formData.currentPrice),
-      purchasePrice: parseFloat(formData.purchasePrice),
-      shares: parseInt(formData.shares),
-      target1: parseFloat(formData.target1),
-      target2: parseFloat(formData.target2),
-      stopLoss: parseFloat(formData.stopLoss),
-      entryZone1: parseFloat(formData.entryZone1) || 0,
-      entryZone2: parseFloat(formData.entryZone2) || 0,
-      type: formData.type,
-      strategy: formData.strategy,
-      sector: formData.sector,
-      notes: formData.notes
-    };
-
-    if (editingId) {
-      setStocks(stocks.map(s => s.id === editingId ? stockData : s));
-      setEditingId(null);
-    } else {
-      setStocks([...stocks, stockData]);
-    }
-
-    setFormData({
-      symbol: '', company: '', currentPrice: '', purchasePrice: '', shares: '',
-      target1: '', target2: '', stopLoss: '', entryZone1: '', entryZone2: '',
-      type: 'long', strategy: 'investment', sector: '', notes: ''
-    });
-    setShowForm(false);
-  };
-
-  const handleEdit = (stock) => {
-    setFormData({
-      symbol: stock.symbol,
-      company: stock.company,
-      currentPrice: stock.currentPrice.toString(),
-      purchasePrice: stock.purchasePrice.toString(),
-      shares: stock.shares.toString(),
-      target1: stock.target1.toString(),
-      target2: stock.target2.toString(),
-      stopLoss: stock.stopLoss.toString(),
-      entryZone1: stock.entryZone1.toString(),
-      entryZone2: stock.entryZone2.toString(),
-      type: stock.type,
-      strategy: stock.strategy,
-      sector: stock.sector,
-      notes: stock.notes
-    });
-    setEditingId(stock.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('هل أنت متأكد من حذف هذا السهم؟')) {
-      setStocks(stocks.filter(s => s.id !== id));
-    }
-  };
-
-  const getStrategyLabel = (strategy) => {
-    const labels = {
-      investment: 'استثمار طويل الأجل',
-      swing: 'تداول قصير الأجل',
-      speculation: 'مضاربة'
-    };
-    return labels[strategy] || strategy;
-  };
-
-  const getStrategyColor = (strategy) => {
-    const colors = {
-      investment: 'bg-blue-100 text-blue-800',
-      swing: 'bg-purple-100 text-purple-800',
-      speculation: 'bg-orange-100 text-orange-800'
-    };
-    return colors[strategy] || 'bg-gray-100 text-gray-800';
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6" dir="rtl">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Header Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-            <div>
-              <h1 className="text-2xl md:text-4xl font-bold text-slate-800 mb-2">إدارة المحفظة الاستثمارية</h1>
-              <p className="text-slate-600 text-sm md:text-base">نظام احترافي لإدارة الاستثمارات - بورصة الكويت</p>
-            </div>
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-2 shadow-md"
-            >
-              <Plus size={20} />
-              إضافة سهم جديد
-            </button>
-          </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
-              <p className="text-sm text-blue-700 font-medium mb-1">إجمالي المحفظة</p>
-              <p className="text-xl md:text-2xl font-bold text-blue-900">{portfolioValue.toLocaleString()} د.ك</p>
-            </div>
-            <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
-              <p className="text-sm text-green-700 font-medium mb-1">القيمة الحالية</p>
-              <p className="text-xl md:text-2xl font-bold text-green-900">{totalCurrentValue.toLocaleString()} د.ك</p>
-            </div>
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
-              <p className="text-sm text-purple-700 font-medium mb-1">المبلغ المستثمر</p>
-              <p className="text-xl md:text-2xl font-bold text-purple-900">{totalInvested.toLocaleString()} د.ك</p>
-            </div>
-            <div className={`bg-gradient-to-br ${totalPnL >= 0 ? 'from-emerald-50 to-emerald-100' : 'from-red-50 to-red-100'} p-4 rounded-xl`}>
-              <p className={`text-sm font-medium mb-1 ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>الربح/الخسارة</p>
-              <p className={`text-xl md:text-2xl font-bold ${totalPnL >= 0 ? 'text-emerald-900' : 'text-red-900'}`}>
-                {totalPnL >= 0 ? '+' : ''}{totalPnL.toLocaleString()} د.ك
-              </p>
-              <p className={`text-sm ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
-                {totalPnL >= 0 ? '+' : ''}{totalPnLPercent}%
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
-              <p className="text-sm text-amber-700 font-medium mb-1">السيولة المتاحة</p>
-              <p className="text-xl md:text-2xl font-bold text-amber-900">{cashAvailable.toLocaleString()} د.ك</p>
-              <p className="text-sm text-amber-700">{((cashAvailable/portfolioValue)*100).toFixed(1)}%</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Add/Edit Form */}
-        {showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800">
-                {editingId ? 'تعديل السهم' : 'إضافة سهم جديد'}
-              </h2>
-              <button 
-                onClick={() => {setShowForm(false); setEditingId(null);}} 
-                className="text-slate-400 hover:text-slate-600"
-              >
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">رمز السهم *</label>
-                <input
-                  type="text"
-                  value={formData.symbol}
-                  onChange={(e) => setFormData({...formData, symbol: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="ZAIN"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">اسم الشركة</label>
-                <input
-                  type="text"
-                  value={formData.company}
-                  onChange={(e) => setFormData({...formData, company: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="شركة زين"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">القطاع</label>
-                <input
-                  type="text"
-                  value={formData.sector}
-                  onChange={(e) => setFormData({...formData, sector: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="اتصالات"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">السعر الحالي (فلس) *</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.currentPrice}
-                  onChange={(e) => setFormData({...formData, currentPrice: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">سعر الشراء (فلس) *</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.purchasePrice}
-                  onChange={(e) => setFormData({...formData, purchasePrice: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">عدد الأسهم *</label>
-                <input
-                  type="number"
-                  value={formData.shares}
-                  onChange={(e) => setFormData({...formData, shares: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">الهدف الأول (فلس) *</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.target1}
-                  onChange={(e) => setFormData({...formData, target1: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">الهدف الثاني (فلس) *</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.target2}
-                  onChange={(e) => setFormData({...formData, target2: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">وقف الخسارة (فلس) *</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.stopLoss}
-                  onChange={(e) => setFormData({...formData, stopLoss: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 1 (فلس)</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.entryZone1}
-                  onChange={(e) => setFormData({...formData, entryZone1: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 2 (فلس)</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={formData.entryZone2}
-                  onChange={(e) => setFormData({...formData, entryZone2: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">نوع المركز</label>
-                <select
-                  value={formData.type}
-                  onChange={(e) => setFormData({...formData, type: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="long">شراء Long</option>
-                  <option value="short">بيع Short</option>
-                </select>
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 mb-2">استراتيجية الاستثمار</label>
-                <select
-                  value={formData.strategy}
-                  onChange={(e) => setFormData({...formData, strategy: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="investment">استثمار طويل الأجل</option>
-                  <option value="swing">تداول قصير الأجل</option>
-                  <option value="speculation">مضاربة</option>
-                </select>
-              </div>
-
-              <div className="md:col-span-3">
-                <label className="block text-sm font-medium text-slate-700 mb-2">ملاحظات</label>
-                <textarea
-                  value={formData.notes}
-                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  rows={3}
-                  placeholder="أضف أي ملاحظات مهمة عن هذا السهم..."
-                />
-              </div>
-
-              <div className="md:col-span-3 flex gap-3">
-                <button
-                  onClick={handleSubmit}
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center gap-2"
-                >
-                  <Save size={20} />
-                  {editingId ? 'تحديث' : 'حفظ'}
-                </button>
-                <button
-                  onClick={() => {setShowForm(false); setEditingId(null);}}
-                  className="bg-slate-200 text-slate-700 px-8 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-all"
-                >
-                  إلغاء
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Stocks List */}
-        <div className="space-y-4">
-          {stocks.length === 0 ? (
-            <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-              <div className="text-slate-400 mb-4 flex justify-center">
-                <TrendingUp size={64} />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">لا توجد أسهم في المحفظة</h3>
-              <p className="text-slate-500">ابدأ بإضافة أول سهم لمحفظتك الاستثمارية</p>
-            </div>
-          ) : (
-            stocks.map((stock) => {
-              const metrics = calculateMetrics(stock);
-              const isProfit = metrics.pnl >= 0;
-              
-              return (
-                <div key={stock.id} className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    
-                    <div className="lg:col-span-3">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h3 className="text-2xl font-bold text-slate-800">{stock.symbol}</h3>
-                          <p className="text-slate-600">{stock.company}</p>
-                          {stock.sector && (
-                            <span className="inline-block mt-2 px-3 py-1 bg-slate-100 text-slate-700 text-xs rounded-full">
-                              {stock.sector}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex gap-2">
-                          <button onClick={() => handleEdit(stock)} className="text-blue-600 hover:text-blue-800">
-                            <Edit2 size={18} />
-                          </button>
-                          <button onClick={() => handleDelete(stock.id)} className="text-red-600 hover:text-red-800">
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStrategyColor(stock.strategy)}`}>
-                          {getStrategyLabel(stock.strategy)}
-                        </span>
-                        <div className="text-sm text-slate-600">
-                          <p>عدد الأسهم: <span className="font-semibold text-slate-800">{stock.shares.toLocaleString()}</span></p>
-                          <p>حجم المركز: <span className="font-semibold text-slate-800">{metrics.positionSize}%</span></p>
-                        </div>
-                      </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المحفظة الاستثمارية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+    <div id="app" class="p-4 md:p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl md:text-4xl font-bold text-slate-800 mb-2">إدارة المحفظة الاستثمارية</h1>
+                        <p class="text-slate-600 text-sm md:text-base">نظام احترافي لإدارة الاستثمارات - بورصة الكويت</p>
                     </div>
-
-                    <div className="lg:col-span-3">
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-sm text-slate-600">السعر الحالي</p>
-                          <p className="text-2xl font-bold text-slate-800">{stock.currentPrice.toFixed(3)} فلس</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-600">سعر الشراء</p>
-                          <p className="text-lg font-semibold text-slate-700">{stock.purchasePrice.toFixed(3)} فلس</p>
-                        </div>
-                        <div className={`p-3 rounded-lg ${isProfit ? 'bg-green-50' : 'bg-red-50'}`}>
-                          <p className={`text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}`}>الربح/الخسارة</p>
-                          <p className={`text-xl font-bold ${isProfit ? 'text-green-800' : 'text-red-800'}`}>
-                            {isProfit ? '+' : ''}{metrics.pnl.toLocaleString()} د.ك
-                          </p>
-                          <p className={`text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}`}>
-                            {isProfit ? '+' : ''}{metrics.pnlPercent}%
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-3">
-                      <div className="space-y-3">
-                        <div className="bg-green-50 p-3 rounded-lg">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Target size={16} className="text-green-600" />
-                            <p className="text-sm font-medium text-green-700">الهدف الأول</p>
-                          </div>
-                          <p className="text-lg font-bold text-green-800">{stock.target1.toFixed(3)} فلس</p>
-                          <p className="text-sm text-green-600">+{metrics.target1Percent}%</p>
-                        </div>
-                        
-                        <div className="bg-emerald-50 p-3 rounded-lg">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Target size={16} className="text-emerald-600" />
-                            <p className="text-sm font-medium text-emerald-700">الهدف الثاني</p>
-                          </div>
-                          <p className="text-lg font-bold text-emerald-800">{stock.target2.toFixed(3)} فلس</p>
-                          <p className="text-sm text-emerald-600">+{metrics.target2Percent}%</p>
-                        </div>
-                        
-                        <div className="bg-red-50 p-3 rounded-lg">
-                          <div className="flex items-center gap-2 mb-1">
-                            <AlertCircle size={16} className="text-red-600" />
-                            <p className="text-sm font-medium text-red-700">وقف الخسارة</p>
-                          </div>
-                          <p className="text-lg font-bold text-red-800">{stock.stopLoss.toFixed(3)} فلس</p>
-                          <p className="text-sm text-red-600">-{metrics.riskPercent}%</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-3">
-                      <div className="space-y-3">
-                        {stock.entryZone1 > 0 && (
-                          <div className="bg-blue-50 p-3 rounded-lg">
-                            <p className="text-sm font-medium text-blue-700 mb-1">منطقة دخول 1</p>
-                            <p className="text-lg font-bold text-blue-800">{stock.entryZone1.toFixed(3)} فلس</p>
-                            <p className="text-xs text-blue-600">فرصة للتعزيز عند التصحيح</p>
-                          </div>
-                        )}
-                        
-                        {stock.entryZone2 > 0 && (
-                          <div className="bg-indigo-50 p-3 rounded-lg">
-                            <p className="text-sm font-medium text-indigo-700 mb-1">منطقة دخول 2</p>
-                            <p className="text-lg font-bold text-indigo-800">{stock.entryZone2.toFixed(3)} فلس</p>
-                            <p className="text-xs text-indigo-600">فرصة ثانية للتعزيز</p>
-                          </div>
-                        )}
-                        
-                        {stock.notes && (
-                          <div className="bg-amber-50 p-3 rounded-lg">
-                            <p className="text-sm font-medium text-amber-700 mb-1">ملاحظات</p>
-                            <p className="text-sm text-amber-800">{stock.notes}</p>
-                          </div>
-                        )}
-
-                        <div className="bg-slate-50 p-3 rounded-lg">
-                          <p className="text-sm text-slate-600">القيمة الإجمالية</p>
-                          <p className="text-xl font-bold text-slate-800">{metrics.currentValue.toLocaleString()} د.ك</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <button onclick="toggleForm()" class="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-md">
+                        ➕ إضافة سهم جديد
+                    </button>
                 </div>
-              );
-            })
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default PortfolioManager;
+                <!-- Stats -->
+                <div id="stats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div id="stockForm" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800">إضافة سهم جديد</h2>
+                    <button onclick="toggleForm()" class="text-slate-400 hover:text-slate-600 text-2xl">✕</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">رمز السهم *</label>
+                        <input type="text" id="symbol" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="ZAIN">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">اسم الشركة</label>
+                        <input type="text" id="company" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="شركة زين">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">القطاع</label>
+                        <input type="text" id="sector" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="اتصالات">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">السعر الحالي (فلس) *</label>
+                        <input type="number" step="0.001" id="currentPrice" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">سعر الشراء (فلس) *</label>
+                        <input type="number" step="0.001" id="purchasePrice" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">عدد الأسهم *</label>
+                        <input type="number" id="shares" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">الهدف الأول (فلس) *</label>
+                        <input type="number" step="0.001" id="target1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">الهدف الثاني (فلس) *</label>
+                        <input type="number" step="0.001" id="target2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">وقف الخسارة (فلس) *</label>
+                        <input type="number" step="0.001" id="stopLoss" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 1</label>
+                        <input type="number" step="0.001" id="entryZone1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 2</label>
+                        <input type="number" step="0.001" id="entryZone2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">استراتيجية الاستثمار</label>
+                        <select id="strategy" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="investment">استثمار طويل الأجل</option>
+                            <option value="swing">تداول قصير الأجل</option>
+                            <option value="speculation">مضاربة</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">ملاحظات</label>
+                        <textarea id="notes" rows="3" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="أضف أي ملاحظات مهمة..."></textarea>
+                    </div>
+                    <div class="md:col-span-3 flex gap-3">
+                        <button onclick="addStock()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all">
+                            💾 حفظ
+                        </button>
+                        <button onclick="toggleForm()" class="bg-slate-200 text-slate-700 px-8 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-all">
+                            إلغاء
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stocks List -->
+            <div id="stocksList" class="space-y-4">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PORTFOLIO_VALUE = 1000000;
+        let stocks = JSON.parse(localStorage.getItem('stocks')) || [];
+
+        function toggleForm() {
+            const form = document.getElementById('stockForm');
+            form.classList.toggle('hidden');
+            if (!form.classList.contains('hidden')) {
+                clearForm();
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('symbol').value = '';
+            document.getElementById('company').value = '';
+            document.getElementById('sector').value = '';
+            document.getElementById('currentPrice').value = '';
+            document.getElementById('purchasePrice').value = '';
+            document.getElementById('shares').value = '';
+            document.getElementById('target1').value = '';
+            document.getElementById('target2').value = '';
+            document.getElementById('stopLoss').value = '';
+            document.getElementById('entryZone1').value = '';
+            document.getElementById('entryZone2').value = '';
+            document.getElementById('strategy').value = 'investment';
+            document.getElementById('notes').value = '';
+        }
+
+        function addStock() {
+            const symbol = document.getElementById('symbol').value;
+            const company = document.getElementById('company').value;
+            const sector = document.getElementById('sector').value;
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
+            const shares = parseInt(document.getElementById('shares').value);
+            const target1 = parseFloat(document.getElementById('target1').value);
+            const target2 = parseFloat(document.getElementById('target2').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            const entryZone1 = parseFloat(document.getElementById('entryZone1').value) || 0;
+            const entryZone2 = parseFloat(document.getElementById('entryZone2').value) || 0;
+            const strategy = document.getElementById('strategy').value;
+            const notes = document.getElementById('notes').value;
+
+            if (!symbol || !currentPrice || !purchasePrice || !shares || !target1 || !target2 || !stopLoss) {
+                alert('الرجاء ملء جميع الحقول المطلوبة (*)');
+                return;
+            }
+
+            const stock = {
+                id: Date.now(),
+                symbol, company, sector, currentPrice, purchasePrice, shares,
+                target1, target2, stopLoss, entryZone1, entryZone2, strategy, notes
+            };
+
+            stocks.push(stock);
+            localStorage.setItem('stocks', JSON.stringify(stocks));
+            toggleForm();
+            renderStocks();
+            updateStats();
+        }
+
+        function deleteStock(id) {
+            if (confirm('هل أنت متأكد من حذف هذا السهم؟')) {
+                stocks = stocks.filter(s => s.id !== id);
+                localStorage.setItem('stocks', JSON.stringify(stocks));
+                renderStocks();
+                updateStats();
+            }
+        }
+
+        function calculateMetrics(stock) {
+            const invested = stock.purchasePrice * stock.shares;
+            const currentValue = stock.currentPrice * stock.shares;
+            const pnl = currentValue - invested;
+            const pnlPercent = ((pnl / invested) * 100).toFixed(2);
+            const target1Percent = (((stock.target1 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
+            const target2Percent = (((stock.target2 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
+            const riskPercent = (((stock.currentPrice - stock.stopLoss) / stock.currentPrice) * 100).toFixed(2);
+            const positionSize = ((invested / PORTFOLIO_VALUE) * 100).toFixed(2);
+            
+            return { invested, currentValue, pnl, pnlPercent, target1Percent, target2Percent, riskPercent, positionSize };
+        }
+
+        function getStrategyLabel(strategy) {
+            const labels = {
+                investment: 'استثمار طويل الأجل',
+                swing: 'تداول قصير الأجل',
+                speculation: 'مضاربة'
+            };
+            return labels[strategy];
+        }
+
+        function getStrategyColor(strategy) {
+            const colors = {
+                investment: 'bg-blue-100 text-blue-800',
+                swing: 'bg-purple-100 text-purple-800',
+                speculation: 'bg-orange-100 text-orange-800'
+            };
+            return colors[strategy];
+        }
+
+        function renderStocks() {
+            const container = document.getElementById('stocksList');
+            
+            if (stocks.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+                        <div class="text-slate-400 mb-4 text-6xl">📈</div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-2">لا توجد أسهم في المحفظة</h3>
+                        <p class="text-slate-500">ابدأ بإضافة أول سهم لمحفظتك الاستثمارية</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = stocks.map(stock => {
+                const metrics = calculateMetrics(stock);
+                const isProfit = metrics.pnl >= 0;
+                
+                return `
+                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            
+                            <div class="lg:col-span-3">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-slate-800">${stock.symbol}</h3>
+                                        <p class="text-slate-600">${stock.company || ''}</p>
+                                        ${stock.sector ? `<span class="inline-block mt-2 px-3 py-1 bg-slate-100 text-slate-700 text-xs rounded-full">${stock.sector}</span>` : ''}
+                                    </div>
+                                    <button onclick="deleteStock(${stock.id})" class="text-red-600 hover:text-red-800">🗑️</button>
+                                </div>
+                                <div class="space-y-2">
+                                    <span class="inline-block px-3 py-1 rounded-full text-sm font-medium ${getStrategyColor(stock.strategy)}">
+                                        ${getStrategyLabel(stock.strategy)}
+                                    </span>
+                                    <div class="text-sm text-slate-600">
+                                        <p>عدد الأسهم: <span class="font-semibold text-slate-800">${stock.shares.toLocaleString()}</span></p>
+                                        <p>حجم المركز: <span class="font-semibold text-slate-800">${metrics.positionSize}%</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-3">
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-slate-600">السعر الحالي</p>
+                                        <p class="text-2xl font-bold text-slate-800">${stock.currentPrice.toFixed(3)} فلس</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-600">سعر الشراء</p>
+                                        <p class="text-lg font-semibold text-slate-700">${stock.purchasePrice.toFixed(3)} فلس</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg ${isProfit ? 'bg-green-50' : 'bg-red-50'}">
+                                        <p class="text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}">الربح/الخسارة</p>
+                                        <p class="text-xl font-bold ${isProfit ? 'text-green-800' : 'text-red-800'}">
+                                            ${isProfit ? '+' : ''}${metrics.pnl.toLocaleString()} د.ك
+                                        </p>
+                                        <p class="text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}">
+                                            ${isProfit ? '+' : ''}${metrics.pnlPercent}%
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-3">
+                                <div class="space-y-3">
+                                    <div class="bg-green-50 p-3 rounded-lg">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span>🎯</span>
+                                            <p class="text-sm font-medium text-green-700">الهدف الأول</p>
+                                        </div>
+                                        <p class="text-lg font-bold text-green-800">${stock.target1.toFixed(3)} فلس</p>
+                                        <p class="text-sm text-green-600">+${metrics.target1Percent}%</p>
+                                    </div>
+                                    <div class="bg-emerald-50 p-3 rounded-lg">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span>🎯</span>
+                                            <p class="text-sm font-medium text-emerald-700">الهدف الثاني</p>
+                                        </div>
+                                        <p class="text-lg font-bold text-emerald-800">${stock.target2.toFixed(3)} فلس</p>
+                                        <p class="text-sm text-emerald-600">+${metrics.target2Percent}%</p>
+                                    </div>
+                                    <div class="bg-red-50 p-3 rounded-lg">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span>⚠️</span>
+                                            <p class="text-sm font-medium text-red-700">وقف الخسارة</p>
+                                        </div>
+                                        <p class="text-lg font-bold text-red-800">${stock.stopLoss.toFixed(3)} فلس</p>
+                                        <p class="text-sm text-red-600">-${metrics.riskPercent}%</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-3">
+                                <div class="space-y-3">
+                                    ${stock.entryZone1 > 0 ? `
+                                        <div class="bg-blue-50 p-3 rounded-lg">
+                                            <p class="text-sm font-medium text-blue-700 mb-1">منطقة دخول 1</p>
+                                            <p class="text-lg font-bold text-blue-800">${stock.entryZone1.toFixed(3)} فلس</p>
+                                            <p class="text-xs text-blue-600">فرصة للتعزيز</p>
+                                        </div>
+                                    ` : ''}
+                                    ${stock.entryZone2 > 0 ? `
+                                        <div class="bg-indigo-50 p-3 rounded-lg">
+                                            <p class="text-sm font-medium text-indigo-700 mb-1">منطقة دخول 2</p>
+                                            <p class="text-lg font-bold text-indigo-800">${stock.entryZone2.toFixed(3)} فلس</p>
+                                            <p class="text-xs text-indigo-600">فرصة ثانية</p>
+                                        </div>
+                                    ` : ''}
+                                    ${stock.notes ? `
+                                        <div class="bg-amber-50 p-3 rounded-lg">
+                                            <p class="text-sm font-medium text-amber-700 mb-1">ملاحظات</p>
+                                            <p class="text-sm text-amber-800">${stock.notes}</p>
+                                        </div>
+                                    ` : ''}
+                                    <div class="bg-slate-50 p-3 rounded-lg">
+                                        <p class="text-sm text-slate-600">القيمة الإجمالية</p>
+                                        <p class="text-xl font-bold text-slate-800">${metrics.currentValue.toLocaleString()} د.ك</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            const totalInvested = stocks.reduce((sum, stock) => sum + (stock.purchasePrice * stock.shares), 0);
+            const totalCurrentValue = stocks.reduce((sum, stock) => sum + (stock.currentPrice * stock.shares), 0);
+            const totalPnL = totalCurrentValue - totalInvested;
+            const totalPnLPercent = totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : '0.00';
+            const cashAvailable = PORTFOLIO_VALUE - totalInvested;
+
+            document.getElementById('stats').innerHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
+                    <p class="text-sm text-blue-700 font-medium mb-1">إجمالي المحفظة</p>
+                    <p class="text-xl md:text-2xl font-bold text-blue-900">${PORTFOLIO_VALUE.toLocaleString()} د.ك</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
+                    <p class="text-sm text-green-700 font-medium mb-1">القيمة الحالية</p>
+                    <p class="text-xl md:text-2xl font-bold text-green-900">${totalCurrentValue.toLocaleString()} د.ك</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
+                    <p class="text-sm text-purple-700 font-medium mb-1">المبلغ المستثمر</p>
+                    <p class="text-xl md:text-2xl font-bold text-purple-900">${totalInvested.toLocaleString()} د.ك</p>
+                </div>
+                <div class="bg-gradient-to-br ${totalPnL >= 0 ? 'from-emerald-50 to-emerald-100' : 'from-red-50 to-red-100'} p-4 rounded-xl">
+                    <p class="text-sm font-medium mb-1 ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}">الربح/الخسارة</p>
+                    <p class="text-xl md:text-2xl font-bold ${totalPnL >= 0 ? 'text-emerald-900' : 'text-red-900'}">
+                        ${totalPnL >= 0 ? '+' : ''}${totalPnL.toLocaleString()} د.ك
+                    </p>
+                    <p class="text-sm ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}">
+                        ${totalPnL >= 0 ? '+' : ''}${totalPnLPercent}%
+                    </p>
+                </div>
+                <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
+                    <p class="text-sm text-amber-700 font-medium mb-1">السيولة المتاحة</p>
+                    <p class="text-xl md:text-2xl font-bold text-amber-900">${cashAvailable.toLocaleString()} د.ك</p>
+                    <p class="text-sm text-amber-700">${((cashAvailable/PORTFOLIO_VALUE)*100).toFixed(1)}%</p>
+                </div>
+            `;
+        }
+
+        // Initialize
+        renderStocks();
+        updateStats();
+    </script>
+</body>
+</html>
