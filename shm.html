@@ -1,388 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة المحفظة الاستثمارية</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
-        body {
-            font-family: 'Cairo', sans-serif;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>تقديم للفريق الإعلامي - مدرسة</title>
+  <style>
+    :root{--bg:#f7fafc;--card:#fff;--accent:#0b63d6;--muted:#6b7280}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans Arabic',"Helvetica Neue",Arial;padding:20px;background:var(--bg);color:#111}
+    .container{max-width:820px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px}
+    h1{margin:6px 0;font-size:20px}
+    p.lead{color:var(--muted);margin:0 0 18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(11,99,214,0.06);margin-bottom:12px}
+    label{display:block;margin:8px 0 6px;font-weight:600}
+    input[type=text],input[type=url],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e5e7eb;font-size:14px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .secondary{background:#fff;color:var(--accent);border:1px solid #dbeafe}
+    .muted{color:var(--muted);font-size:13px}
+    footer{font-size:13px;color:var(--muted);margin-top:10px}
+    @media(max-width:720px){.row{grid-template-columns:1fr}}
+  </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
-    <div id="app" class="p-4 md:p-6">
-        <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                    <div>
-                        <h1 class="text-2xl md:text-4xl font-bold text-slate-800 mb-2">إدارة المحفظة الاستثمارية</h1>
-                        <p class="text-slate-600 text-sm md:text-base">نظام احترافي لإدارة الاستثمارات - بورصة الكويت</p>
-                    </div>
-                    <button onclick="toggleForm()" class="w-full md:w-auto bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-md">
-                        ➕ إضافة سهم جديد
-                    </button>
-                </div>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>نموذج تقديم — الفريق الإعلامي المدرسي</h1>
+        <p class="lead">ارفع مقطعك (دقيقتان) بصيغة رابط مشاركة من Google Drive أو أرسله لواتساب المدرسة.</p>
+      </div>
+    </header>
 
-                <!-- Stats -->
-                <div id="stats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                    <!-- Will be populated by JS -->
-                </div>
-            </div>
-
-            <!-- Form -->
-            <div id="stockForm" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6 hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl md:text-2xl font-bold text-slate-800">إضافة سهم جديد</h2>
-                    <button onclick="toggleForm()" class="text-slate-400 hover:text-slate-600 text-2xl">✕</button>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">رمز السهم *</label>
-                        <input type="text" id="symbol" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="ZAIN">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">اسم الشركة</label>
-                        <input type="text" id="company" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="شركة زين">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">القطاع</label>
-                        <input type="text" id="sector" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="اتصالات">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">السعر الحالي (فلس) *</label>
-                        <input type="number" step="0.001" id="currentPrice" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">سعر الشراء (فلس) *</label>
-                        <input type="number" step="0.001" id="purchasePrice" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">عدد الأسهم *</label>
-                        <input type="number" id="shares" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">الهدف الأول (فلس) *</label>
-                        <input type="number" step="0.001" id="target1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">الهدف الثاني (فلس) *</label>
-                        <input type="number" step="0.001" id="target2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">وقف الخسارة (فلس) *</label>
-                        <input type="number" step="0.001" id="stopLoss" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 1</label>
-                        <input type="number" step="0.001" id="entryZone1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">منطقة دخول 2</label>
-                        <input type="number" step="0.001" id="entryZone2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">استراتيجية الاستثمار</label>
-                        <select id="strategy" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <option value="investment">استثمار طويل الأجل</option>
-                            <option value="swing">تداول قصير الأجل</option>
-                            <option value="speculation">مضاربة</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-3">
-                        <label class="block text-sm font-medium text-slate-700 mb-2">ملاحظات</label>
-                        <textarea id="notes" rows="3" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="أضف أي ملاحظات مهمة..."></textarea>
-                    </div>
-                    <div class="md:col-span-3 flex gap-3">
-                        <button onclick="addStock()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all">
-                            💾 حفظ
-                        </button>
-                        <button onclick="toggleForm()" class="bg-slate-200 text-slate-700 px-8 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-all">
-                            إلغاء
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stocks List -->
-            <div id="stocksList" class="space-y-4">
-                <!-- Will be populated by JS -->
-            </div>
+    <div class="card">
+      <form id="applyForm">
+        <div class="row">
+          <div>
+            <label>الاسم الكامل</label>
+            <input type="text" id="name" placeholder="اسم الطالب" required>
+          </div>
+          <div>
+            <label>الصف/الفصل</label>
+            <input type="text" id="grade" placeholder="مثال: الأول متوسط - 2أ" required>
+          </div>
         </div>
+
+        <label>نوع الموهبة</label>
+        <select id="talent">
+          <option value="تقديم">تقديم</option>
+          <option value="تحرير/كتابة">تحرير/كتابة</option>
+          <option value="تصوير/مونتاج">تصوير/مونتاج</option>
+          <option value="مراسل ميداني">مراسل ميداني</option>
+          <option value="آخر">آخر</option>
+        </select>
+
+        <label>رابط المقطع (Google Drive - مشاركة "أي شخص لديه الرابط")</label>
+        <input type="url" id="videoLink" placeholder="https://drive.google.com/...?usp=sharing" required>
+        <p class="muted">تذكير: يجب أن يجعل الطالب رابط المقطع "Anyone with the link can view" قبل الإرسال.</p>
+
+        <label>نبذة قصيرة (لماذا تريد الانضمام؟ 1-2 سطر)</label>
+        <textarea id="bio" rows="3" placeholder="أكتب هنا" required></textarea>
+
+        <div style="margin-top:10px">
+          <label>اختيار طريقة الإرسال النهائية</label>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button type="button" id="sendToGoogleForm">إرسال إلى استمارة المدرسة (مخزّن)</button>
+            <button type="button" id="sendToEmail" class="secondary">إرسال عبر بريد المدرسة</button>
+            <button type="button" id="sendToWhatsApp">إرسال عبر واتساب المدرسة</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="preview">معاينة نص الإرسال</button>
+          <button type="reset" class="secondary">مسح الحقول</button>
+        </div>
+
+      </form>
     </div>
 
-    <script>
-        const PORTFOLIO_VALUE = 1000000;
-        let stocks = JSON.parse(localStorage.getItem('stocks')) || [];
+    <div class="card" id="previewCard" style="display:none">
+      <h3>معاينة الرسالة</h3>
+      <pre id="previewText" style="white-space:pre-wrap"></pre>
+      <div style="margin-top:10px">
+        <button id="copyBtn">نسخ النص</button>
+      </div>
+    </div>
 
-        function toggleForm() {
-            const form = document.getElementById('stockForm');
-            form.classList.toggle('hidden');
-            if (!form.classList.contains('hidden')) {
-                clearForm();
-            }
-        }
+    <footer>
+      <strong>إرشادات للإدارة / للمشرف:</strong>
+      <ul>
+        <li>1) يرفع الطالب الفيديو على Google Drive ويجعل المشاركة "أي شخص لديه الرابط" ثم يلصق الرابط هنا.</li>
+        <li>2) لاستلام الردود تلقائيًا في جدول: أنشئ Google Form واملأ حقل الرابط والاسم والصف، ثم انسخ رابط الإرسال (action) إلى القسم المعلّق داخل ملف الـHTML أو استخدم Google Forms مباشرة.</li>
+        <li>3) ضع رقم واتساب المدرسة بصيغة دولية داخل المتغير SCHOOL_WHATSAPP_NUMBER في الشيفرة (مثال: 9665XXXXXXXX).</li>
+        <li>4) يمكنك رفع هذا الملف على أي استضافة ثابتة: GitHub Pages، أو سيرفر المدرسة. (لم يعد يُنصح باستضافة HTML مباشرة عبر Google Drive).</li>
+      </ul>
+    </footer>
+  </div>
 
-        function clearForm() {
-            document.getElementById('symbol').value = '';
-            document.getElementById('company').value = '';
-            document.getElementById('sector').value = '';
-            document.getElementById('currentPrice').value = '';
-            document.getElementById('purchasePrice').value = '';
-            document.getElementById('shares').value = '';
-            document.getElementById('target1').value = '';
-            document.getElementById('target2').value = '';
-            document.getElementById('stopLoss').value = '';
-            document.getElementById('entryZone1').value = '';
-            document.getElementById('entryZone2').value = '';
-            document.getElementById('strategy').value = 'investment';
-            document.getElementById('notes').value = '';
-        }
+  <script>
+    // === إعدادات يجب على المشرف تعديلها قبل النشر ===
+    const CONFIG = {
+      // إذا أنشأتم Google Form وترغبون أن تُحفظ الردود تلقائيًا في جدول:
+      // ضعوا هنا رابط action الخاص بالـ form (مثال placeholder). اتركوه فارغاً إذا لم تستخدموا Google Form.
+      GOOGLE_FORM_ACTION: "", // مثال: "https://docs.google.com/forms/d/e/FORM_ID/formResponse"
 
-        function addStock() {
-            const symbol = document.getElementById('symbol').value;
-            const company = document.getElementById('company').value;
-            const sector = document.getElementById('sector').value;
-            const currentPrice = parseFloat(document.getElementById('currentPrice').value);
-            const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
-            const shares = parseInt(document.getElementById('shares').value);
-            const target1 = parseFloat(document.getElementById('target1').value);
-            const target2 = parseFloat(document.getElementById('target2').value);
-            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
-            const entryZone1 = parseFloat(document.getElementById('entryZone1').value) || 0;
-            const entryZone2 = parseFloat(document.getElementById('entryZone2').value) || 0;
-            const strategy = document.getElementById('strategy').value;
-            const notes = document.getElementById('notes').value;
+      // إذا استخدمتم Google Form، ضعوا أسماء الحقول (entry.XXXX) المناسبة هنا.
+      // أمثلة: {name: 'entry.123456', grade: 'entry.234567', talent: 'entry.345678', link: 'entry.456789', bio: 'entry.567890'}
+      GOOGLE_FORM_FIELDS: {
+        name: '', grade: '', talent: '', link: '', bio: ''
+      },
 
-            if (!symbol || !currentPrice || !purchasePrice || !shares || !target1 || !target2 || !stopLoss) {
-                alert('الرجاء ملء جميع الحقول المطلوبة (*)');
-                return;
-            }
+      // بريد المدرسة لاستلام نسخة (ضعوه إن أردتم استخدام زر البريد)
+      SCHOOL_EMAIL: 'school@example.com',
 
-            const stock = {
-                id: Date.now(),
-                symbol, company, sector, currentPrice, purchasePrice, shares,
-                target1, target2, stopLoss, entryZone1, entryZone2, strategy, notes
-            };
+      // رقم واتساب المدرسة بصيغة دولية (بدون +) مثال السعودية: 9665XXXXXXXX
+      SCHOOL_WHATSAPP_NUMBER: '9665XXXXXXXX'
+    };
+    // ==================================================
 
-            stocks.push(stock);
-            localStorage.setItem('stocks', JSON.stringify(stocks));
-            toggleForm();
-            renderStocks();
-            updateStats();
-        }
+    const el = id => document.getElementById(id);
+    function collect() {
+      return {
+        name: el('name').value.trim(),
+        grade: el('grade').value.trim(),
+        talent: el('talent').value,
+        link: el('videoLink').value.trim(),
+        bio: el('bio').value.trim()
+      }
+    }
 
-        function deleteStock(id) {
-            if (confirm('هل أنت متأكد من حذف هذا السهم؟')) {
-                stocks = stocks.filter(s => s.id !== id);
-                localStorage.setItem('stocks', JSON.stringify(stocks));
-                renderStocks();
-                updateStats();
-            }
-        }
+    function validate(data){
+      if(!data.name||!data.grade||!data.link||!data.bio) return false;
+      // basic URL check
+      try{ new URL(data.link); }catch(e){return false}
+      return true;
+    }
 
-        function calculateMetrics(stock) {
-            const invested = stock.purchasePrice * stock.shares;
-            const currentValue = stock.currentPrice * stock.shares;
-            const pnl = currentValue - invested;
-            const pnlPercent = ((pnl / invested) * 100).toFixed(2);
-            const target1Percent = (((stock.target1 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
-            const target2Percent = (((stock.target2 - stock.currentPrice) / stock.currentPrice) * 100).toFixed(2);
-            const riskPercent = (((stock.currentPrice - stock.stopLoss) / stock.currentPrice) * 100).toFixed(2);
-            const positionSize = ((invested / PORTFOLIO_VALUE) * 100).toFixed(2);
-            
-            return { invested, currentValue, pnl, pnlPercent, target1Percent, target2Percent, riskPercent, positionSize };
-        }
+    el('preview').addEventListener('click', ()=>{
+      const d = collect();
+      if(!validate(d)){ alert('الرجاء ملء جميع الحقول بشكل صحيح'); return }
+      const txt = `اسم الطالب: ${d.name}\nالصف: ${d.grade}\nنوع الموهبة: ${d.talent}\nرابط المقطع: ${d.link}\nنبذة: ${d.bio}`
+      el('previewText').textContent = txt;
+      el('previewCard').style.display = 'block';
+    });
 
-        function getStrategyLabel(strategy) {
-            const labels = {
-                investment: 'استثمار طويل الأجل',
-                swing: 'تداول قصير الأجل',
-                speculation: 'مضاربة'
-            };
-            return labels[strategy];
-        }
+    el('copyBtn').addEventListener('click', ()=>{
+      navigator.clipboard.writeText(el('previewText').textContent).then(()=>alert('نُسخ النص'));
+    });
 
-        function getStrategyColor(strategy) {
-            const colors = {
-                investment: 'bg-blue-100 text-blue-800',
-                swing: 'bg-purple-100 text-purple-800',
-                speculation: 'bg-orange-100 text-orange-800'
-            };
-            return colors[strategy];
-        }
+    // إرسال إلى Google Form (يتطلب تعبئة CONFIG.GOOGLE_FORM_ACTION وFIELD names)
+    el('sendToGoogleForm').addEventListener('click', async ()=>{
+      const data = collect(); if(!validate(data)){ alert('الرجاء ملء جميع الحقول بشكل صحيح'); return }
+      if(!CONFIG.GOOGLE_FORM_ACTION){ alert('لم يتم إعداد اتصال Google Form. يمكنك إعداد Google Form ثم نسخ رابط الـ formResponse هنا في إعدادات الملف.'); return }
+      const formData = new FormData();
+      const f = CONFIG.GOOGLE_FORM_FIELDS;
+      formData.append(f.name, data.name);
+      formData.append(f.grade, data.grade);
+      formData.append(f.talent, data.talent);
+      formData.append(f.link, data.link);
+      formData.append(f.bio, data.bio);
+      try{
+        await fetch(CONFIG.GOOGLE_FORM_ACTION, { method: 'POST', mode: 'no-cors', body: formData });
+        alert('تم الإرسال إلى استمارة المدرسة (إن لم تظهر رسالة خطأ فذلك طبيعي بسبب قيود Google Forms).');
+      }catch(e){ alert('فشل الإرسال: '+e.message) }
+    });
 
-        function renderStocks() {
-            const container = document.getElementById('stocksList');
-            
-            if (stocks.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
-                        <div class="text-slate-400 mb-4 text-6xl">📈</div>
-                        <h3 class="text-xl font-semibold text-slate-700 mb-2">لا توجد أسهم في المحفظة</h3>
-                        <p class="text-slate-500">ابدأ بإضافة أول سهم لمحفظتك الاستثمارية</p>
-                    </div>
-                `;
-                return;
-            }
+    // إرسال عبر بريد المدرسة (يفتح عميل البريد المثبت)
+    el('sendToEmail').addEventListener('click', ()=>{
+      const d = collect(); if(!validate(d)){ alert('الرجاء ملء جميع الحقول بشكل صحيح'); return }
+      const subject = encodeURIComponent('تقديم - الفريق الإعلامي: '+d.name);
+      const body = encodeURIComponent(`اسم الطالب: ${d.name}\nالصف: ${d.grade}\nنوع الموهبة: ${d.talent}\nرابط المقطع: ${d.link}\nنبذة: ${d.bio}`);
+      const mail = `mailto:${CONFIG.SCHOOL_EMAIL}?subject=${subject}&body=${body}`;
+      window.location.href = mail;
+    });
 
-            container.innerHTML = stocks.map(stock => {
-                const metrics = calculateMetrics(stock);
-                const isProfit = metrics.pnl >= 0;
-                
-                return `
-                    <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                            
-                            <div class="lg:col-span-3">
-                                <div class="flex items-start justify-between mb-3">
-                                    <div>
-                                        <h3 class="text-2xl font-bold text-slate-800">${stock.symbol}</h3>
-                                        <p class="text-slate-600">${stock.company || ''}</p>
-                                        ${stock.sector ? `<span class="inline-block mt-2 px-3 py-1 bg-slate-100 text-slate-700 text-xs rounded-full">${stock.sector}</span>` : ''}
-                                    </div>
-                                    <button onclick="deleteStock(${stock.id})" class="text-red-600 hover:text-red-800">🗑️</button>
-                                </div>
-                                <div class="space-y-2">
-                                    <span class="inline-block px-3 py-1 rounded-full text-sm font-medium ${getStrategyColor(stock.strategy)}">
-                                        ${getStrategyLabel(stock.strategy)}
-                                    </span>
-                                    <div class="text-sm text-slate-600">
-                                        <p>عدد الأسهم: <span class="font-semibold text-slate-800">${stock.shares.toLocaleString()}</span></p>
-                                        <p>حجم المركز: <span class="font-semibold text-slate-800">${metrics.positionSize}%</span></p>
-                                    </div>
-                                </div>
-                            </div>
+    // إرسال عبر واتساب المدرسة (يفتح تطبيق واتساب أو نسخة الويب)
+    el('sendToWhatsApp').addEventListener('click', ()=>{
+      const d = collect(); if(!validate(d)){ alert('الرجاء ملء جميع الحقول بشكل صحيح'); return }
+      const phone = CONFIG.SCHOOL_WHATSAPP_NUMBER.replace(/\D/g,'');
+      if(!phone){ alert('لم يُعدّ رقم واتساب المدرسة في إعدادات الملف. الرجاء تعديل المتغير SCHOOL_WHATSAPP_NUMBER.'); return }
+      const text = `تقديم للفريق الإعلامي%0Aاسم: ${encodeURIComponent(d.name)}%0Aالصف: ${encodeURIComponent(d.grade)}%0Aنوع الموهبة: ${encodeURIComponent(d.talent)}%0Aرابط المقطع: ${encodeURIComponent(d.link)}%0Aنبذة: ${encodeURIComponent(d.bio)}`;
+      const url = `https://wa.me/${phone}?text=${text}`;
+      window.open(url,'_blank');
+    });
 
-                            <div class="lg:col-span-3">
-                                <div class="space-y-3">
-                                    <div>
-                                        <p class="text-sm text-slate-600">السعر الحالي</p>
-                                        <p class="text-2xl font-bold text-slate-800">${stock.currentPrice.toFixed(3)} فلس</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-slate-600">سعر الشراء</p>
-                                        <p class="text-lg font-semibold text-slate-700">${stock.purchasePrice.toFixed(3)} فلس</p>
-                                    </div>
-                                    <div class="p-3 rounded-lg ${isProfit ? 'bg-green-50' : 'bg-red-50'}">
-                                        <p class="text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}">الربح/الخسارة</p>
-                                        <p class="text-xl font-bold ${isProfit ? 'text-green-800' : 'text-red-800'}">
-                                            ${isProfit ? '+' : ''}${metrics.pnl.toLocaleString()} د.ك
-                                        </p>
-                                        <p class="text-sm ${isProfit ? 'text-green-700' : 'text-red-700'}">
-                                            ${isProfit ? '+' : ''}${metrics.pnlPercent}%
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="lg:col-span-3">
-                                <div class="space-y-3">
-                                    <div class="bg-green-50 p-3 rounded-lg">
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <span>🎯</span>
-                                            <p class="text-sm font-medium text-green-700">الهدف الأول</p>
-                                        </div>
-                                        <p class="text-lg font-bold text-green-800">${stock.target1.toFixed(3)} فلس</p>
-                                        <p class="text-sm text-green-600">+${metrics.target1Percent}%</p>
-                                    </div>
-                                    <div class="bg-emerald-50 p-3 rounded-lg">
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <span>🎯</span>
-                                            <p class="text-sm font-medium text-emerald-700">الهدف الثاني</p>
-                                        </div>
-                                        <p class="text-lg font-bold text-emerald-800">${stock.target2.toFixed(3)} فلس</p>
-                                        <p class="text-sm text-emerald-600">+${metrics.target2Percent}%</p>
-                                    </div>
-                                    <div class="bg-red-50 p-3 rounded-lg">
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <span>⚠️</span>
-                                            <p class="text-sm font-medium text-red-700">وقف الخسارة</p>
-                                        </div>
-                                        <p class="text-lg font-bold text-red-800">${stock.stopLoss.toFixed(3)} فلس</p>
-                                        <p class="text-sm text-red-600">-${metrics.riskPercent}%</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="lg:col-span-3">
-                                <div class="space-y-3">
-                                    ${stock.entryZone1 > 0 ? `
-                                        <div class="bg-blue-50 p-3 rounded-lg">
-                                            <p class="text-sm font-medium text-blue-700 mb-1">منطقة دخول 1</p>
-                                            <p class="text-lg font-bold text-blue-800">${stock.entryZone1.toFixed(3)} فلس</p>
-                                            <p class="text-xs text-blue-600">فرصة للتعزيز</p>
-                                        </div>
-                                    ` : ''}
-                                    ${stock.entryZone2 > 0 ? `
-                                        <div class="bg-indigo-50 p-3 rounded-lg">
-                                            <p class="text-sm font-medium text-indigo-700 mb-1">منطقة دخول 2</p>
-                                            <p class="text-lg font-bold text-indigo-800">${stock.entryZone2.toFixed(3)} فلس</p>
-                                            <p class="text-xs text-indigo-600">فرصة ثانية</p>
-                                        </div>
-                                    ` : ''}
-                                    ${stock.notes ? `
-                                        <div class="bg-amber-50 p-3 rounded-lg">
-                                            <p class="text-sm font-medium text-amber-700 mb-1">ملاحظات</p>
-                                            <p class="text-sm text-amber-800">${stock.notes}</p>
-                                        </div>
-                                    ` : ''}
-                                    <div class="bg-slate-50 p-3 rounded-lg">
-                                        <p class="text-sm text-slate-600">القيمة الإجمالية</p>
-                                        <p class="text-xl font-bold text-slate-800">${metrics.currentValue.toLocaleString()} د.ك</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateStats() {
-            const totalInvested = stocks.reduce((sum, stock) => sum + (stock.purchasePrice * stock.shares), 0);
-            const totalCurrentValue = stocks.reduce((sum, stock) => sum + (stock.currentPrice * stock.shares), 0);
-            const totalPnL = totalCurrentValue - totalInvested;
-            const totalPnLPercent = totalInvested > 0 ? ((totalPnL / totalInvested) * 100).toFixed(2) : '0.00';
-            const cashAvailable = PORTFOLIO_VALUE - totalInvested;
-
-            document.getElementById('stats').innerHTML = `
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
-                    <p class="text-sm text-blue-700 font-medium mb-1">إجمالي المحفظة</p>
-                    <p class="text-xl md:text-2xl font-bold text-blue-900">${PORTFOLIO_VALUE.toLocaleString()} د.ك</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
-                    <p class="text-sm text-green-700 font-medium mb-1">القيمة الحالية</p>
-                    <p class="text-xl md:text-2xl font-bold text-green-900">${totalCurrentValue.toLocaleString()} د.ك</p>
-                </div>
-                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
-                    <p class="text-sm text-purple-700 font-medium mb-1">المبلغ المستثمر</p>
-                    <p class="text-xl md:text-2xl font-bold text-purple-900">${totalInvested.toLocaleString()} د.ك</p>
-                </div>
-                <div class="bg-gradient-to-br ${totalPnL >= 0 ? 'from-emerald-50 to-emerald-100' : 'from-red-50 to-red-100'} p-4 rounded-xl">
-                    <p class="text-sm font-medium mb-1 ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}">الربح/الخسارة</p>
-                    <p class="text-xl md:text-2xl font-bold ${totalPnL >= 0 ? 'text-emerald-900' : 'text-red-900'}">
-                        ${totalPnL >= 0 ? '+' : ''}${totalPnL.toLocaleString()} د.ك
-                    </p>
-                    <p class="text-sm ${totalPnL >= 0 ? 'text-emerald-700' : 'text-red-700'}">
-                        ${totalPnL >= 0 ? '+' : ''}${totalPnLPercent}%
-                    </p>
-                </div>
-                <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
-                    <p class="text-sm text-amber-700 font-medium mb-1">السيولة المتاحة</p>
-                    <p class="text-xl md:text-2xl font-bold text-amber-900">${cashAvailable.toLocaleString()} د.ك</p>
-                    <p class="text-sm text-amber-700">${((cashAvailable/PORTFOLIO_VALUE)*100).toFixed(1)}%</p>
-                </div>
-            `;
-        }
-
-        // Initialize
-        renderStocks();
-        updateStats();
-    </script>
+  </script>
 </body>
 </html>
+
