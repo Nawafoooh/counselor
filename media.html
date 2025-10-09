@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفريق الإعلامي المدرسي - متوسطة المنذر بن عمرو الأنصاري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Amiri', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .school-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .school-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .school-info {
+            font-size: 1em;
+            color: #5a6c7d;
+            line-height: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin: 30px 0;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            color: #f0f0f0;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(33, 147, 176, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(33, 147, 176, 0.6);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 100px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #7f8c8d;
+            margin-bottom: 60px;
+        }
+
+        /* Benefits Cards */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .benefit-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .benefit-card:hover {
+            border-color: #667eea;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .benefit-title {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .benefit-description {
+            color: #5a6c7d;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* Timeline Steps */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 60px;
+            padding-right: 100px;
+        }
+
+        .step-number {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .step-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .step-description {
+            color: #5a6c7d;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: #fff;
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px 24px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            color: #2c3e50;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Amiri', serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .alert-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border: 2px solid #ffc107;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .alert-icon {
+            font-size: 2em;
+        }
+
+        .alert-text {
+            color: #856404;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 25px;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-family: 'Amiri', serif;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Admin Panel Button */
+        .admin-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            z-index: 1000;
+            font-family: 'Amiri', serif;
+        }
+
+        .admin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .close-admin {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: 'Amiri', serif;
+        }
+
+        .applications-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .application-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .application-name {
+            font-size: 1.5em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .application-time {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .footer-credit {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .timeline-step {
+                padding-right: 80px;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .admin-button {
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-content {
+            background: #fff;
+            border-radius: 30px;
+            padding: 60px 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            font-size: 1.3em;
+            color: #5a6c7d;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .success-quote {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-right: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-size: 1.4em;
+            color: #2c3e50;
+            line-height: 2;
+            font-weight: bold;
+        }
+
+        .close-success {
+            padding: 18px 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            font-family: 'Amiri', serif;
+        }
+
+        .close-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="school-badge">
+                <div class="school-name">متوسطة المنذر بن عمرو الأنصاري</div>
+                <div class="school-info">
+                    <div>مدير المدرسة: أ. خالد المطيري</div>
+                    <div>رائد النشاط: أ. عبدالله الحربي</div>
+                </div>
+            </div>
+            <h1>🎬 الفريق الإعلامي المدرسي</h1>
+            <p class="hero-subtitle">موهبتك الإعلامية تبدأ من هنا</p>
+            <a href="#apply" class="cta-button">سجّل الآن 🚀</a>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="container">
+        <div class="section">
+            <h2 class="section-title">ماذا ستستفيد من الانضمام؟</h2>
+            <p class="section-subtitle">فرص حقيقية لتطوير مهاراتك الإعلامية</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎓</div>
+                    <h3 class="benefit-title">تدريب احترافي مجاني</h3>
+                    <p class="benefit-description">ورش عمل وتدريبات عملية في التقديم، التصوير، المونتاج، والإخراج الإعلامي من خبراء متخصصين</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎥</div>
+                    <h3 class="benefit-title">خبرة عملية حقيقية</h3>
+                    <p class="benefit-description">تغطية الأنشطة والفعاليات، إنتاج البرامج، وإنشاء محتوى إعلامي فعلي يُنشر ويُشاهد</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <h3 class="benefit-title">شهادات وتقديرات</h3>
+                    <p class="benefit-description">شهادات خبرة معتمدة، تقديرات رسمية، وإضافة قوية لسيرتك الذاتية المستقبلية</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌟</div>
+                    <h3 class="benefit-title">فرص المشاركة والمنافسة</h3>
+                    <p class="benefit-description">تمثيل المدرسة في المسابقات الإعلامية المحلية والوطنية وفرص الظهور الإعلامي</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💼</div>
+                    <h3 class="benefit-title">بناء معرض أعمالك</h3>
+                    <p class="benefit-description">إنشاء بورتفوليو احترافي من أعمالك الإعلامية يفتح لك آفاق المستقبل</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3 class="benefit-title">تطوير المهارات الشخصية</h3>
+                    <p class="benefit-description">تعزيز الثقة بالنفس، مهارات التواصل، العمل الجماعي، والقيادة</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="section">
+            <h2 class="section-title">مراحل الانضمام للفريق</h2>
+            <p class="section-subtitle">ثلاث خطوات بسيطة نحو مستقبلك الإعلامي</p>
+
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">📝 التسجيل الإلكتروني</h3>
+                        <p class="step-description">املأ نموذج التقديم أدناه بمعلوماتك وموهبتك الإعلامية. ثم أرسل مقطع فيديو (دقيقتان) يُظهر موهبتك عبر واتساب المدرسة.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">🎤 المقابلة الشخصية</h3>
+                        <p class="step-description">بعد مراجعة طلبك، سنتواصل معك لحضور مقابلة شخصية مع لجنة الفريق الإعلامي لتقييم مهاراتك وشغفك.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">🎉 الانضمام الرسمي</h3>
+                        <p class="step-description">تهانينا! أنت الآن عضو رسمي في الفريق الإعلامي. ستبدأ رحلتك بتدريب تأهيلي والمشاركة في مشروعك الإعلامي الأول.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Form -->
+        <div class="section" id="apply">
+            <h2 class="section-title">نموذج التسجيل</h2>
+            <p class="section-subtitle">ابدأ رحلتك الإعلامية الآن</p>
+
+            <div class="form-section">
+                <div class="alert-box">
+                    <div class="alert-icon">📱</div>
+                    <div class="alert-text">
+                        بعد ملء النموذج، سيُطلب منك إرسال مقطع فيديو (دقيقتان) يُظهر موهبتك عبر واتساب المدرسة
+                    </div>
+                </div>
+
+                <form id="mediaForm">
+                    <div class="form-group">
+                        <label>الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل">
+                    </div>
+
+                    <div class="form-group">
+                        <label>الصف/الفصل <span class="required">*</span></label>
+                        <input type="text" id="classRoom" required placeholder="مثال: الأول متوسط - فصل 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>نوع الموهبة الإعلامية <span class="required">*</span></label>
+                        <select id="talentType" required>
+                            <option value="">-- اختر نوع موهبتك --</option>
+                            <option value="مقدم برامج">📺 مقدم برامج</option>
+                            <option value="مراسل">📰 مراسل</option>
+                            <option value="مصور">📷 مصور</option>
+                            <option value="محرر فيديو">🎬 محرر فيديو</option>
+                            <option value="مصمم جرافيك">🎨 مصمم جرافيك</option>
+                            <option value="كاتب محتوى">✍️ كاتب محتوى</option>
+                            <option value="معد برامج">📋 معد برامج</option>
+                            <option value="مونتاج صوتي">🎵 مونتاج صوتي</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>نبذة عن موهبتك واهتماماتك <span class="required">*</span></label>
+                        <textarea id="aboutYou" required placeholder="أخبرنا عن موهبتك الإعلامية، خبراتك السابقة، وما الذي يميزك..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رقم الجوال (للتواصل) <span class="required">*</span></label>
+                        <input type="tel" id="phoneNumber" required placeholder="05xxxxxxxx">
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <span>✅</span>
+                        <span>تسجيل وإرسال الفيديو</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-credit">
+            إشراف وتنفيذ: نواف الصبحي ✨
+        </div>
+    </div>
+
+    <!-- Admin Panel Button -->
+    <button class="admin-button" onclick="openAdminPanel()">
+        🔐 لوحة التحكم
+    </button>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 style="color: #667eea; font-size: 2em;">📊 لوحة تحكم المعلم</h2>
+                <button class="close-admin" onclick="closeAdminPanel()">إغلاق</button>
+            </div>
+            <div class="applications-list" id="applicationsList">
+                <p style="text-align: center; color: #7f8c8d; font-size: 1.2em;">لا توجد طلبات بعد</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">✨</div>
+            <h2 class="success-title">تم استلام طلبك بنجاح!</h2>
+            
+            <p class="success-message">
+                تم حفظ بياناتك من قبل الأستاذ<br>
+                <strong style="color: #667eea; font-size: 1.3em;">نواف الصبحي</strong>
+            </p>
+            
+            <div class="success-quote">
+                🌟 أنت على بُعد خطوات من تحقيق حلمك الإعلامي!<br><br>
+                موهبتك الفريدة ستضيء عالم الإعلام المدرسي.<br>
+                استعد لرحلة مليئة بالإبداع والتميز.<br><br>
+                💪 ثق بقدراتك.. نحن نؤمن بموهبتك!
+            </div>
+            
+            <p style="font-size: 1.3em; color: #764ba2; margin: 20px 0; font-weight: bold;">
+                📱 الآن: أرسل مقطع الفيديو (دقيقتان) عبر واتساب المدرسة
+            </p>
+            
+            <button class="close-success" onclick="closeSuccessAndSendWhatsApp()">
+                إرسال الفيديو عبر واتساب 💬
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // رقم الواتساب المشفر
+        const encryptedPhone = 'OTY2NTQxMTQ4MDQ3';
+        
+        function decryptPhone(encrypted) {
+            return atob(encrypted);
+        }
+
+        // قاعدة البيانات المحلية
+        let applications = JSON.parse(localStorage.getItem('mediaApplications') || '[]');
+
+        // معالجة النموذج
+        document.getElementById('mediaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) return;
+            
+            // حفظ البيانات
+            const application = {
+                id: Date.now(),
+                fullName: document.getElementById('fullName').value,
+                classRoom: document.getElementById('classRoom').value,
+                talentType: document.getElementById('talentType').value,
+                aboutYou: document.getElementById('aboutYou').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                timestamp: new Date().toLocaleString('ar-SA')
+            };
+            
+            applications.push(application);
+            localStorage.setItem('mediaApplications', JSON.stringify(applications));
+            
+            // عرض رسالة النجاح
+            document.getElementById('successModal').style.display = 'flex';
+        });
+
+        function validateForm() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const classRoom = document.getElementById('classRoom').value.trim();
+            const talentType = document.getElementById('talentType').value;
+            const aboutYou = document.getElementById('aboutYou').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+            if (!fullName || !classRoom || !talentType || !aboutYou || !phoneNumber) {
+                alert('⚠️ الرجاء ملء جميع الحقول المطلوبة');
+                return false;
+            }
+
+            if (phoneNumber.length < 10) {
+                alert('⚠️ الرجاء إدخال رقم جوال صحيح');
+                return false;
+            }
+
+            return true;
+        }
+
+        function closeSuccessAndSendWhatsApp() {
+            document.getElementById('successModal').style.display = 'none';
+            
+            const message = `
+*━━━━━━━━━━━━━━━━━━━*
+*🎬 إرسال فيديو الموهبة*
+*━━━━━━━━━━━━━━━━━━━*
+
+مرحباً، أنا ${document.getElementById('fullName').value}
+
+تم تسجيل بياناتي في منصة الفريق الإعلامي
+
+أرسل لكم مقطع الفيديو الذي يُظهر موهبتي الإعلامية
+
+*━━━━━━━━━━━━━━━━━━━*
+متوسطة المنذر بن عمرو الأنصاري
+            `.trim();
+
+            const whatsappNumber = decryptPhone(encryptedPhone);
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            // إعادة تعيين النموذج
+            document.getElementById('mediaForm').reset();
+        }
+
+        // لوحة التحكم
+        function openAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'block';
+            loadApplications();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function loadApplications() {
+            applications = JSON.parse(localStorage.getItem('mediaApplications') || '[]');
+            const listContainer = document.getElementById('applicationsList');
+            
+            if (applications.length === 0) {
+                listContainer.innerHTML = '<p style="text-align: center; color: #7f8c8d; font-size: 1.2em;">لا توجد طلبات بعد</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = applications.reverse().map(app => `
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="application-name">${app.fullName}</div>
+                        <div class="application-time">${app.timestamp}</div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <div class="detail-label">الصف/الفصل</div>
+                            <div class="detail-value">${app.classRoom}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">نوع الموهبة</div>
+                            <div class="detail-value">${app.talentType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">رقم الجوال</div>
+                            <div class="detail-value">${app.phoneNumber}</div>
+                        </div>
+                    </div>
+                    <div style="background: #fff; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                        <div class="detail-label">نبذة عن الطالب:</div>
+                        <div style="color: #2c3e50; margin-top: 10px; line-height: 1.8;">${app.aboutYou}</div>
+                    </div>
+                    <button onclick="deleteApplication(${app.id})" style="
+                        margin-top: 15px;
+                        padding: 10px 20px;
+                        background: #e74c3c;
+                        color: #fff;
+                        border: none;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-family: 'Amiri', serif;
+                        font-size: 1em;
+                    ">حذف الطلب 🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteApplication(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الطلب؟')) {
+                applications = applications.filter(app => app.id !== id);
+                localStorage.setItem('mediaApplications', JSON.stringify(applications));
+                loadApplications();
+            }
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
